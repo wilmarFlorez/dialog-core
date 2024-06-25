@@ -56,6 +56,8 @@ const receiveMessage = (req, res) => {
     const messages = messageObject[0]
     const text = getTextUser(messages)
 
+    console.log('Text ===>', text)
+
     res.send('EVENT_RECEIVED')
   } catch (error) {
     myConsole.log(error)
