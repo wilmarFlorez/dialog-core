@@ -1,0 +1,31 @@
+# Dependencias
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Directorio de salida de compilación
+dist/
+
+# Archivos de configuración del entorno
+.env
+.env.local
+.env.*.local
+
+# Directorio de almacenamiento temporal
+tmp/
+
+# Archivos de depuración de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+
+# Archivos de configuración del sistema operativo
+.DS_Store
+Thumbs.db
