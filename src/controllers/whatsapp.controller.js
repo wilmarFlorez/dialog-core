@@ -18,23 +18,46 @@ const verifyToken = (req, res) => {
   }
 }
 
+function getInteractiveMessage(messages) {
+  const interactiveObject = messages['interactive']
+  const typeInteractive = interactiveObject['type']
+  console.log('Interactive object ==>', interactiveObject)
+
+  if (typeInteractive === 'button_reply') {
+    return interactiveObject['button_reply']['title']
+  } else if (typeInteractive === 'list_reply') {
+    return interactiveObject['list_reply']['title']
+  } else {
+    console.log("There isn't an interactive message")
+  }
+}
+
+function getTextUser(messages) {
+  const text = ''
+  const typeMessage = messages['type']
+
+  if (typeMessage === 'text') {
+    text = messages['text']['body']
+  } else if (typeMessage === 'interactive') {
+    text = getInteractiveMessage(messages)
+  } else {
+    console.log("There isn't a message")
+  }
+
+  return text
+}
+
 const receiveMessage = (req, res) => {
   try {
-    let entry = req.body['entry'][0]
-    let changes = entry['changes'][0]
-    let value = changes['value']
-    let messageObject = value['messages']
-
-    console.log(':::::::::::::::::::::::::::::::')
-    console.log('Message', messageObject)
-    console.log(':::::::::::::::::::::::::::::::')
-
-    myConsole.log(messageObject)
+    const entry = req.body['entry'][0]
+    const changes = entry['changes'][0]
+    const value = changes['value']
+    const messageObject = value['messages']
+    const messages = messageObject[0]
+    const text = getTextUser(messages)
 
     res.send('EVENT_RECEIVED')
   } catch (error) {
-    console.error('Error', error)
-
     myConsole.log(error)
     res.send('EVENT_RECEIVED')
   }
