@@ -1,3 +1,6 @@
+const fs = require('fs')
+const myConsole = new console.Console(fs.createWriteStream('./logs.txt'))
+
 const verifyToken = (req, res) => {
   try {
     // This token is a generated random token
@@ -16,7 +19,19 @@ const verifyToken = (req, res) => {
 }
 
 const receiveMessage = (req, res) => {
-  res.send('hola received')
+  try {
+    let entry = req.body['entry'][0]
+    let changes = entry['changes'][0]
+    let value = changes['value']
+    let messageObject = value['messages']
+
+    myConsole.log(messageObject)
+
+    res.send('EVENT_RECEIVED')
+  } catch (error) {
+    myConsole.log(error)
+    res.send('EVENT_RECEIVED')
+  }
 }
 
 module.exports = {
