@@ -25,6 +25,10 @@ const receiveMessage = (req, res) => {
     let value = changes['value']
     let messageObject = value['messages']
 
+    console.log(':::::::::::::::::::::::::::::::')
+    console.log('Message', messageObject)
+    console.log(':::::::::::::::::::::::::::::::')
+
     myConsole.log(messageObject)
 
     res.send('EVENT_RECEIVED')
