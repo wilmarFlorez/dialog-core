@@ -33,7 +33,7 @@ function getInteractiveMessage(messages) {
 }
 
 function getTextUser(messages) {
-  const text = ''
+  let text = ''
   const typeMessage = messages['type']
 
   if (typeMessage === 'text') {
@@ -60,7 +60,7 @@ const receiveMessage = (req, res) => {
 
     res.send('EVENT_RECEIVED')
   } catch (error) {
-    myConsole.log(error)
+    console.log(error)
     res.send('EVENT_RECEIVED')
   }
 }
