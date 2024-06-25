@@ -33,6 +33,8 @@ const receiveMessage = (req, res) => {
 
     res.send('EVENT_RECEIVED')
   } catch (error) {
+    console.error('Error', error)
+
     myConsole.log(error)
     res.send('EVENT_RECEIVED')
   }
