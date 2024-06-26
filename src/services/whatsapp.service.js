@@ -17,7 +17,7 @@ function sendMessage(text, number) {
     path: '/v19.0/382988971554015/messages',
     method: 'POST',
     body: data,
-    header: {
+    headers: {
       'Content-Type': 'application/json',
       Authorization: process.env.FACEBOOK_AUTHORIZATION_TOKEN,
     },
