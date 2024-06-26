@@ -1,4 +1,6 @@
 const https = require('https')
+const dotenv = require('dotenv')
+dotenv.config()
 
 function sendMessage(text, number) {
   console.log('Sending message...', text, number)
@@ -21,7 +23,7 @@ function sendMessage(text, number) {
     body: data,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: process.env.FACEBOOK_AUTHORIZATION_TOKEN,
+      Authorization: `Bearer ${process.env.FACEBOOK_AUTHORIZATION_TOKEN}`,
     },
   }
 
