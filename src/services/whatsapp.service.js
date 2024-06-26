@@ -7,10 +7,10 @@ function sendMessage(text, number) {
     messaging_product: 'whatsapp',
     recipient_type: 'individual',
     to: number,
-    type: text,
+    type: 'text',
     text: {
       preview_url: false,
-      body: 'Hola este es un mensaje de prueba',
+      body: text,
     },
   })
 
