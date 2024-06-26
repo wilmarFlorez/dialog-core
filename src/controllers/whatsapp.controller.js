@@ -1,5 +1,6 @@
 const fs = require('fs')
 const myConsole = new console.Console(fs.createWriteStream('./logs.txt'))
+const whatsappService = require('../services/whatsapp.service')
 
 const verifyToken = (req, res) => {
   try {
@@ -53,10 +54,19 @@ const receiveMessage = (req, res) => {
     const changes = entry['changes'][0]
     const value = changes['value']
     const messageObject = value['messages']
-    const messages = messageObject[0]
-    const text = getTextUser(messages)
 
-    console.log('Text ===>', text)
+    if (messageObject) {
+      const messages = messageObject[0]
+      const text = getTextUser(messages)
+      const number = messages['from']
+
+      whatsappService.sendMessage(
+        'Hola Soy Ana, tu asistente virtual en que puedo ayudarte hoy',
+        number
+      )
+
+      console.log('Text ===>', text)
+    }
 
     res.send('EVENT_RECEIVED')
   } catch (error) {
