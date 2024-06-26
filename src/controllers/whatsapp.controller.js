@@ -10,7 +10,7 @@ const verifyToken = (req, res) => {
     let challenge = req.query['hub.challenge']
 
     if (challenge !== null && token !== null && token == accessToken) {
-      res.send(challenge)
+      res.status(200).send(challenge)
     } else {
       res.status(400).send()
     }
@@ -55,6 +55,8 @@ const receiveMessage = (req, res) => {
     const value = changes['value']
     const messageObject = value['messages']
 
+    console.log('Entry', entry)
+
     if (messageObject) {
       const messages = messageObject[0]
       const text = getTextUser(messages)
@@ -65,7 +67,7 @@ const receiveMessage = (req, res) => {
         number
       )
 
-      console.log('Text ===>', text)
+      console.log('Text ===>', text, 'number', number)
     }
 
     res.send('EVENT_RECEIVED')
