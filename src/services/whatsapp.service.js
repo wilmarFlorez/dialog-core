@@ -24,7 +24,7 @@ function sendMessage(messageObject) {
     console.error('Error', error)
   })
 
-  req.write(data)
+  req.write(messageObject)
   req.end()
 }
 
