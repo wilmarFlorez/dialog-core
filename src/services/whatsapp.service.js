@@ -48,7 +48,10 @@ function processMessage(message, number) {
     )
     models.push(model)
   } else {
-    let model = whatsappModels.message('No comprendí tu respuesta', number)
+    let model = whatsappModels.message(
+      'Lo siento, No comprendí tu respuesta',
+      number
+    )
     models.push(model)
   }
   models.forEach((model) => {
