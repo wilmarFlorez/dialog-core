@@ -1,4 +1,4 @@
-function messageModel(text, number) {
+function message(text, number) {
   const data = JSON.stringify({
     messaging_product: 'whatsapp',
     recipient_type: 'individual',
@@ -13,7 +13,7 @@ function messageModel(text, number) {
   return data
 }
 
-function imageModel(imageUrl, number) {
+function image(imageUrl, number) {
   // Image example
   // https://biostoragecloud.blob.core.windows.net/resource-udemy-whatsapp-node/image_whatsapp.png
   const data = JSON.stringify({
@@ -29,7 +29,7 @@ function imageModel(imageUrl, number) {
   return data
 }
 
-function audioModel(audioUrl, number) {
+function audio(audioUrl, number) {
   // Audio example
   // https://biostoragecloud.blob.core.windows.net/resource-udemy-whatsapp-node/audio_whatsapp.mp3
   const data = JSON.stringify({
@@ -45,7 +45,7 @@ function audioModel(audioUrl, number) {
   return data
 }
 
-function videoModel(videoUrl, number) {
+function video(videoUrl, number) {
   // Video example
   // https://biostoragecloud.blob.core.windows.net/resource-udemy-whatsapp-node/video_whatsapp.mp4
   const data = JSON.stringify({
@@ -61,7 +61,7 @@ function videoModel(videoUrl, number) {
   return data
 }
 
-function documentModel(documentUrl, number) {
+function document(documentUrl, number) {
   // Document example
   // https://biostoragecloud.blob.core.windows.net/resource-udemy-whatsapp-node/document_whatsapp.pdf
   const data = JSON.stringify({
@@ -77,7 +77,7 @@ function documentModel(documentUrl, number) {
   return data
 }
 
-function interactiveButtonsModel(number) {
+function interactiveButtons(number) {
   const data = JSON.stringify({
     messaging_product: 'whatsapp',
     recipient_type: 'individual',
@@ -112,7 +112,7 @@ function interactiveButtonsModel(number) {
   return data
 }
 
-function interactiveListModel(number) {
+function interactiveList(number) {
   const data = JSON.stringify({
     messaging_product: 'whatsapp',
     recipient_type: 'individual',
@@ -171,7 +171,7 @@ function interactiveListModel(number) {
   return data
 }
 
-function locationModel(number) {
+function location(number) {
   const data = JSON.stringify({
     messaging_product: 'whatsapp',
     recipient_type: 'individual',
@@ -189,12 +189,12 @@ function locationModel(number) {
 }
 
 module.exports = {
-  messageModel,
-  imageModel,
-  audioModel,
-  videoModel,
-  documentModel,
-  interactiveButtonsModel,
-  interactiveListModel,
-  locationModel,
+  message,
+  image,
+  audio,
+  video,
+  document,
+  interactiveButtons,
+  interactiveList,
+  location,
 }
