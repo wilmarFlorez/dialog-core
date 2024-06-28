@@ -34,14 +34,14 @@ function processMessage(message, number) {
   const normalizeMessage = message.toLowerCase()
   let models = []
 
-  if (normalizeMessage.includes('Hola')) {
+  if (normalizeMessage.includes('hola')) {
     let model = whatsappModels.message(
       'Hola, soy Sofia, estoy aquí para ayudarte',
       number
     )
 
     models.push(model)
-  } else if (normalizeMessage.includes('Salir')) {
+  } else if (normalizeMessage.includes('salir')) {
     let model = whatsappModels.message(
       'Me alegra haber podido ayudarte',
       number
