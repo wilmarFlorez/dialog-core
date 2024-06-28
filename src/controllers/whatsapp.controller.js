@@ -1,5 +1,4 @@
 const whatsappService = require('../services/whatsapp.service')
-const whatsappModels = require('../models/whatsapp')
 
 const verifyToken = (req, res) => {
   try {
@@ -61,18 +60,8 @@ const receiveMessage = (req, res) => {
       const text = getTextUser(messages)
       const number = messages['from']
 
-      if (text.toLowerCase() === 'hola') {
-        const messageObject = whatsappModels.messageModel(
-          'Hola Soy Ana, tu asistente virtual en que puedo ayudarte hoy',
-          number
-        )
-        whatsappService.sendMessage(messageObject)
-      } else if (text.toLowerCase() === 'imagen') {
-        const messageObject = whatsappModels.imageModel(
-          'https://biostoragecloud.blob.core.windows.net/resource-udemy-whatsapp-node/image_whatsapp.png',
-          number
-        )
-        whatsappService.sendMessage(messageObject)
+      if (text !== '') {
+        whatsappService.processMessage(text, number)
       }
     }
 

@@ -1,3 +1,5 @@
+const whatsappModels = require('../models/whatsapp')
+
 const https = require('https')
 const dotenv = require('dotenv')
 dotenv.config()
@@ -28,6 +30,33 @@ function sendMessage(messageObject) {
   req.end()
 }
 
+function processMessage(message, number) {
+  const normalizeMessage = message.toLowerCase()
+  let models = []
+
+  if (normalizeMessage.includes('Hola')) {
+    let model = whatsappModels.message(
+      'Hola, soy Sofia, estoy aquí para ayudarte',
+      number
+    )
+
+    models.push(model)
+  } else if (normalizeMessage.includes('Salir')) {
+    let model = whatsappModels.message(
+      'Me alegra haber podido ayudarte',
+      number
+    )
+    models.push(model)
+  } else {
+    let model = whatsappModels.message('No comprendí tu respuesta', number)
+    models.push(model)
+  }
+  models.forEach((model) => {
+    sendMessage(model)
+  })
+}
+
 module.exports = {
   sendMessage,
+  processMessage,
 }
