@@ -48,12 +48,12 @@ function processMessage(message, number) {
       },
       {
         id: '2',
-        title: 'Conocer nuestros planes turísticos',
+        title: 'Planes turisticos',
         description: 'Descripción....',
       },
       {
         id: '3',
-        title: 'Consultar disponibilidad y precios',
+        title: 'Consultar disponibilidad',
         description: 'Descripción....',
       },
       {
