@@ -134,32 +134,22 @@ function interactiveList(number) {
         button: 'Ver opciones',
         sections: [
           {
-            title: 'Hoteles',
+            title: 'Alojamientos',
             rows: [
               {
                 id: '1',
-                title: 'Hotel Calima',
-                description: 'Habitación doble',
+                title: 'Hoteles',
+                description: 'Descripción....',
               },
               {
                 id: '2',
-                title: 'Hotel Brisas del calima',
-                description: 'Habitación sencilla',
+                title: 'Glamping',
+                description: 'Descripción...',
               },
-            ],
-          },
-          {
-            title: 'Camping',
-            rows: [
               {
                 id: '3',
-                title: 'Mistic Paradaise',
-                description: 'Carpa para 5 personas',
-              },
-              {
-                id: '4',
-                title: 'Lago Camping',
-                description: 'Carpa para 2 personas',
+                title: 'Habitación',
+                description: 'Descripción...',
               },
             ],
           },
