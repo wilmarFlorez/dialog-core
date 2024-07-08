@@ -1,4 +1,5 @@
 const whatsappModels = require('../models/whatsapp')
+const { getBookings } = require('../api/motopress/bookings')
 
 const https = require('https')
 const dotenv = require('dotenv')
@@ -30,11 +31,13 @@ function sendMessage(messageObject) {
   req.end()
 }
 
-function processMessage(message, number) {
+async function processMessage(message, number) {
   const normalizeMessage = message.toLowerCase()
   let models = []
 
   if (normalizeMessage.includes('hola')) {
+    const bookings = await getBookings()
+
     let model = whatsappModels.message(
       '¡Hola! Bienvenido, Soy tu asistente virtual Sofia. ¿En qué puedo ayudarte hoy?',
       number
