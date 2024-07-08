@@ -44,18 +44,22 @@ function processMessage(message, number) {
       {
         id: '1',
         title: 'Reservar un alojamiento',
+        description: 'Descripción....',
       },
       {
         id: '2',
         title: 'Conocer nuestros planes turísticos',
+        description: 'Descripción....',
       },
       {
         id: '3',
         title: 'Consultar disponibilidad y precios',
+        description: 'Descripción....',
       },
       {
         id: '4',
         title: 'Hablar con un agente',
+        description: 'Descripción....',
       },
     ]
 
