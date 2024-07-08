@@ -36,11 +36,30 @@ function processMessage(message, number) {
 
   if (normalizeMessage.includes('hola')) {
     let model = whatsappModels.message(
-      'Hola, soy Sofia, estoy aquí para ayudarte',
+      '¡Hola! Bienvenido, Soy tu asistente virtual Sofia. ¿En qué puedo ayudarte hoy?',
       number
     )
 
-    let listModel = whatsappModels.interactiveList(number)
+    const rows = [
+      {
+        id: '1',
+        title: 'Reservar un alojamiento',
+      },
+      {
+        id: '2',
+        title: 'Conocer nuestros planes turísticos',
+      },
+      {
+        id: '3',
+        title: 'Consultar disponibilidad y precios',
+      },
+      {
+        id: '4',
+        title: 'Hablar con un agente',
+      },
+    ]
+
+    let listModel = whatsappModels.interactiveList(number, rows)
 
     models.push(model)
     models.push(listModel)
