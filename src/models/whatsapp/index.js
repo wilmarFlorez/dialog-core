@@ -112,7 +112,7 @@ function interactiveButtons(number) {
   return data
 }
 
-function interactiveList(number) {
+function interactiveList(number, rows) {
   const data = JSON.stringify({
     messaging_product: 'whatsapp',
     recipient_type: 'individual',
@@ -122,36 +122,20 @@ function interactiveList(number) {
       type: 'list',
       header: {
         type: 'text',
-        text: 'Alojamientos disponibles',
+        text: 'Nuestros servicios',
       },
       body: {
         text: 'Selecciona una de las opciones',
       },
       footer: {
-        text: 'Estamos atentos a cualquier inquietud.',
+        text: '',
       },
       action: {
         button: 'Ver opciones',
         sections: [
           {
             title: 'Alojamientos',
-            rows: [
-              {
-                id: '1',
-                title: 'Hoteles',
-                description: 'Descripción....',
-              },
-              {
-                id: '2',
-                title: 'Glamping',
-                description: 'Descripción...',
-              },
-              {
-                id: '3',
-                title: 'Habitación',
-                description: 'Descripción...',
-              },
-            ],
+            rows: rows,
           },
         ],
       },
