@@ -8,4 +8,4 @@ function createApiService(config) {
   })
 }
 
-module.exports = createApiService
+module.exports = { createApiService }
