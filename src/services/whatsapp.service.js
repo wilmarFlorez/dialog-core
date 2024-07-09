@@ -47,22 +47,18 @@ async function processMessage(message, number) {
       {
         id: '1',
         title: 'Reservar un alojamiento',
-        description: 'Descripción....',
       },
       {
         id: '2',
         title: 'Planes turisticos',
-        description: 'Descripción....',
       },
       {
         id: '3',
         title: 'Consultar disponibilidad',
-        description: 'Descripción....',
       },
       {
         id: '4',
         title: 'Hablar con un agente',
-        description: 'Descripción....',
       },
     ]
 
