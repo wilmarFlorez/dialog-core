@@ -68,8 +68,8 @@ async function processMessage(message, number) {
 
     let listModel = whatsappModels.interactiveList(number, rows)
 
-    models.push(model)
     models.push(listModel)
+    models.push(model)
   } else if (normalizeMessage.includes('salir')) {
     let model = whatsappModels.message(
       'Me alegra haber podido ayudarte',
