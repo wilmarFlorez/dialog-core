@@ -99,6 +99,7 @@ async function processMessage(messages, number) {
       'Ingresa el día de Salida con la siguiente estructura: *dia/mes/año*\n Ejemplo: *5/01/2024*',
       number
     )
+    models.push(model)
   } else if (normalizeMessage.includes('hola')) {
     /* const bookings = await getBookings() */
 
