@@ -1,6 +1,7 @@
 const whatsappModels = require('../models/whatsapp')
 const { getBookings } = require('../api/motopress/bookings')
 const optionsIds = require('../constants/optionsIds')
+const { steps } = require('../constants/boot')
 
 const https = require('https')
 
@@ -71,17 +72,17 @@ function getTextUser(messages) {
 
 async function processMessage(messages, number) {
   const messageObject = getTextUser(messages)
+  let prevStep = null
   let models = []
   const normalizeMessage =
     messageObject.text && messageObject.text.toLowerCase()
 
   if (messageObject.type === 'list_reply') {
     let model = null
+    prevStep = steps.SELECT_SERVICE
     if (messageObject.id === optionsIds.BOOK_ACCOMODATION) {
-      model = whatsappModels.createDayButtons(number)
-    } else {
       model = whatsappModels.message(
-        `Seleccionaste ${messageObject.id}`,
+        'Ingresa el día de llegada el con la siguiente estructura: *dia/mes/año*\n ejemplo: *1/01/2024*',
         number
       )
     }
