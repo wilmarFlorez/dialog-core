@@ -1,3 +1,6 @@
+const dotenv = require('dotenv')
+dotenv.config()
+
 module.exports = {
   motopress: {
     baseURL: process.env.MOTOPRESS_API_URL,
