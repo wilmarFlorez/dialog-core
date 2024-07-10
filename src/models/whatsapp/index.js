@@ -162,31 +162,6 @@ function location(number) {
   return data
 }
 
-function createDayButtons(number) {
-  const daysInMonth = new Date('2024', '07', 0).getDate()
-  const days = []
-  for (let i = 1; i <= daysInMonth; i++) {
-    days.push({ id: i < 10 ? `0${i}` : `${i}`, title: i.toString() })
-  }
-
-  const data = JSON.stringify({
-    messaging_product: 'whatsapp',
-    recipient_type: 'individual',
-    to: number,
-    type: 'interactive',
-    interactive: {
-      type: 'list',
-      body: { text: 'Día de llegada:' },
-      action: {
-        button: 'Seleccionar',
-        sections: [{ title: 'Dias', rows: days }],
-      },
-    },
-  })
-
-  return data
-}
-
 module.exports = {
   message,
   image,
@@ -196,5 +171,4 @@ module.exports = {
   interactiveButtons,
   interactiveList,
   location,
-  createDayButtons,
 }
