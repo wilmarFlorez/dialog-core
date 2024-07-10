@@ -1,4 +1,5 @@
 const whatsappService = require('../services/whatsapp.service')
+const optionsIds = require('../constants/optionsIds')
 
 const verifyToken = (req, res) => {
   try {
@@ -17,35 +18,6 @@ const verifyToken = (req, res) => {
   }
 }
 
-function getInteractiveMessage(messages) {
-  const interactiveObject = messages['interactive']
-  const typeInteractive = interactiveObject['type']
-  console.log('Interactive object ==>', interactiveObject)
-
-  if (typeInteractive === 'button_reply') {
-    return interactiveObject['button_reply']['title']
-  } else if (typeInteractive === 'list_reply') {
-    return interactiveObject['list_reply']['title']
-  } else {
-    console.log("There isn't an interactive message")
-  }
-}
-
-function getTextUser(messages) {
-  let text = ''
-  const typeMessage = messages['type']
-
-  if (typeMessage === 'text') {
-    text = messages['text']['body']
-  } else if (typeMessage === 'interactive') {
-    text = getInteractiveMessage(messages)
-  } else {
-    console.log("There isn't a message")
-  }
-
-  return text
-}
-
 const receiveMessage = async (req, res) => {
   try {
     const entry = req.body['entry'][0]
@@ -53,16 +25,14 @@ const receiveMessage = async (req, res) => {
     const value = changes['value']
     const messageObject = value['messages']
 
-    console.log('Entry', entry)
+    console.log('Entry', JSON.stringify(entry))
 
     if (messageObject) {
       const messages = messageObject[0]
-      const text = getTextUser(messages)
+
       const number = messages['from']
 
-      if (text !== '') {
-        await whatsappService.processMessage(text, number)
-      }
+      await whatsappService.processMessage(messages, number)
     }
 
     res.send('EVENT_RECEIVED')
