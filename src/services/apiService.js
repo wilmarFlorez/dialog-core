@@ -1,8 +1,7 @@
 const axios = require('axios')
 
-function createApiService(config) {
-  console.log('Axios config', config)
 
+function createApiService(config) {
   return axios.create({
     baseURL: config.baseURL,
     timeout: config.timeout,
