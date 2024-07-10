@@ -78,10 +78,7 @@ async function processMessage(messages, number) {
   if (messageObject.type === 'list_reply') {
     let model = null
     if (messageObject.id === optionsIds.BOOK_ACCOMODATION) {
-      model = whatsappModels.message(
-        `Seleccionaste ${messageObject.id}`,
-        number
-      )
+      model = whatsappModels.createDayButtons(number)
     } else {
       model = whatsappModels.message(
         `Seleccionaste ${messageObject.id}`,
