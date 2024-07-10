@@ -76,14 +76,19 @@ async function processMessage(messages, number) {
     messageObject.text && messageObject.text.toLowerCase()
 
   if (messageObject.type === 'list_reply') {
+    let model = null
     if (messageObject.id === optionsIds.BOOK_ACCOMODATION) {
-      let model = whatsappModels.message(
+      model = whatsappModels.message(
         `Seleccionaste ${messageObject.id}`,
         number
       )
-
-      models.push(model)
+    } else {
+      model = whatsappModels.message(
+        `Seleccionaste ${messageObject.id}`,
+        number
+      )
     }
+    models.push(model)
   } else if (normalizeMessage.includes('hola')) {
     /* const bookings = await getBookings() */
 
