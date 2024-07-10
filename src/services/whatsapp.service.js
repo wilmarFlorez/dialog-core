@@ -5,6 +5,9 @@ const { steps } = require('../constants/boot')
 
 const https = require('https')
 
+// state
+const userState = {}
+
 function sendMessage(messageObject) {
   const options = {
     host: 'graph.facebook.com',
@@ -72,8 +75,8 @@ function getTextUser(messages) {
 
 async function processMessage(messages, number) {
   const messageObject = getTextUser(messages)
-  let prevStep = null
-  console.log('prevStep =========>', prevStep)
+
+  console.log('userState =========>', userState)
 
   let models = []
   const normalizeMessage =
@@ -81,7 +84,7 @@ async function processMessage(messages, number) {
 
   if (messageObject.type === 'list_reply') {
     let model = null
-    prevStep = steps.CHECK_IN
+    userState.step = steps.CHECK_IN
     if (messageObject.id === optionsIds.BOOK_ACCOMODATION) {
       model = whatsappModels.message(
         'Ingresa el día de llegada con la siguiente estructura: *dia/mes/año*\n Ejemplo: *1/01/2024*',
@@ -89,9 +92,9 @@ async function processMessage(messages, number) {
       )
     }
     models.push(model)
-  } else if (prevStep === steps.CHECK_IN) {
+  } else if (userState.step === steps.CHECK_IN) {
     let model = null
-    prevStep = steps.CHECK_OUT
+    userState.step = steps.CHECK_OUT
     model = whatsappModels.message(
       'Ingresa el día de Salida con la siguiente estructura: *dia/mes/año*\n Ejemplo: *5/01/2024*',
       number
