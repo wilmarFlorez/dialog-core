@@ -82,7 +82,7 @@ async function processMessage(messages, number) {
     prevStep = steps.SELECT_SERVICE
     if (messageObject.id === optionsIds.BOOK_ACCOMODATION) {
       model = whatsappModels.message(
-        'Ingresa el día de llegada el con la siguiente estructura: *dia/mes/año*\n ejemplo: *1/01/2024*',
+        'Ingresa el día de llegada con la siguiente estructura: *dia/mes/año*\n Ejemplo: *1/01/2024*',
         number
       )
     }
