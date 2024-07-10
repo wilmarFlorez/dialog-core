@@ -25,8 +25,6 @@ const receiveMessage = async (req, res) => {
     const value = changes['value']
     const messageObject = value['messages']
 
-    console.log('Entry', JSON.stringify(entry))
-
     if (messageObject) {
       const messages = messageObject[0]
 

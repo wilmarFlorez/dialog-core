@@ -173,11 +173,14 @@ function createDayButtons(number) {
     messaging_product: 'whatsapp',
     recipient_type: 'individual',
     to: number,
-    type: 'list',
-    body: { text: 'Día de llegada:' },
-    action: {
-      button: 'Seleccionar',
-      sections: [{ title: 'Dias', rows: days }],
+    type: 'interactive',
+    interactive: {
+      type: 'list',
+      body: { text: 'Día de llegada:' },
+      action: {
+        button: 'Seleccionar',
+        sections: [{ title: 'Dias', rows: days }],
+      },
     },
   })
 
