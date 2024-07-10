@@ -100,6 +100,16 @@ async function processMessage(messages, number) {
       number
     )
     models.push(model)
+  } else if (userState.step === steps.CHECK_OUT) {
+    let model = null
+    userState.step = steps.NUMBER_OF_ADULTS
+    model = whatsappModels.message('Ingresa el número de adultos', number)
+    models.push(model)
+  } else if (userState.step === steps.NUMBER_OF_ADULTS) {
+    let model = null
+    userState.step = steps.NUMBER_OF_CHILDREN
+    model = whatsappModels.message('Ingresa el número de niños', number)
+    models.push(model)
   } else if (normalizeMessage.includes('hola')) {
     /* const bookings = await getBookings() */
 
