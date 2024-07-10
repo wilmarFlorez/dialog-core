@@ -1,0 +1,218 @@
+{
+  "namespace": "mphb/v1",
+  "routes": {
+    "/mphb/v1": {
+      "namespace": "mphb/v1",
+      "methods": ["GET"],
+      "endpoints": [
+        {
+          "methods": ["GET"],
+          "args": {
+            "namespace": { "default": "mphb/v1", "required": false },
+            "context": { "default": "view", "required": false }
+          }
+        }
+      ],
+      "_links": {
+        "self": [{ "href": "https://increible.shop/wp-json/mphb/v1" }]
+      }
+    },
+    "/mphb/v1/accommodation_types/batch": {
+      "namespace": "mphb/v1",
+      "methods": ["POST", "PUT", "PATCH"],
+      "endpoints": [
+        {
+          "methods": ["POST", "PUT", "PATCH"],
+          "args": {
+            "title": {
+              "description": "Title.",
+              "type": "string",
+              "required": false
+            },
+            "description": {
+              "description": "Description.",
+              "type": "string",
+              "required": false
+            },
+            "excerpt": {
+              "description": "Excerpt.",
+              "type": "string",
+              "required": false
+            },
+            "adults": {
+              "description": "Adults.",
+              "type": "integer",
+              "required": false
+            },
+            "children": {
+              "description": "Children.",
+              "type": "integer",
+              "required": false
+            },
+            "total_capacity": {
+              "description": "Total capacity.",
+              "type": "integer",
+              "required": false
+            },
+            "bed_type": {
+              "description": "Bed Type.",
+              "type": "string",
+              "required": false
+            },
+            "size": {
+              "description": "Room square meters.",
+              "type": "number",
+              "required": false
+            },
+            "view": {
+              "description": "City view, seaside, swimming pool etc.",
+              "type": "string",
+              "required": false
+            },
+            "services": {
+              "description": "Service ids.",
+              "type": "array",
+              "items": {
+                "description": "Service item.",
+                "type": "object",
+                "required": true,
+                "properties": {
+                  "id": {
+                    "description": "Service id.",
+                    "type": "integer",
+                    "required": true
+                  },
+                  "title": {
+                    "description": "Service title.",
+                    "type": "string",
+                    "readonly": true
+                  }
+                }
+              },
+              "required": false
+            },
+            "categories": {
+              "description": "Category terms.",
+              "type": "array",
+              "items": {
+                "description": "Category item.",
+                "type": "object",
+                "context": ["view", "edit"],
+                "required": true,
+                "properties": {
+                  "id": {
+                    "description": "Category id.",
+                    "type": "integer",
+                    "required": true
+                  },
+                  "name": {
+                    "description": "Category name.",
+                    "type": "string",
+                    "readonly": true
+                  }
+                }
+              },
+              "required": false
+            },
+            "tags": {
+              "description": "Tag terms.",
+              "type": "array",
+              "items": {
+                "description": "Tag item.",
+                "type": "object",
+                "context": ["view", "edit"],
+                "required": true,
+                "properties": {
+                  "id": {
+                    "description": "Tag id.",
+                    "type": "integer",
+                    "required": true
+                  },
+                  "name": {
+                    "description": "Tag name.",
+                    "type": "string",
+                    "readonly": true
+                  }
+                }
+              },
+              "required": false
+            },
+            "amenities": {
+              "description": "Amenity terms.",
+              "type": "array",
+              "items": {
+                "description": "Amenity item.",
+                "type": "object",
+                "context": ["view", "edit"],
+                "required": true,
+                "properties": {
+                  "id": {
+                    "description": "Amenity id.",
+                    "type": "integer",
+                    "required": true
+                  },
+                  "name": {
+                    "description": "Amenity name.",
+                    "type": "string",
+                    "readonly": true
+                  }
+                }
+              },
+              "required": false
+            },
+            "attributes": {
+              "description": "Attributes.",
+              "type": "array",
+              "items": {
+                "description": "Attribute item.",
+                "type": "object",
+                "context": ["view", "edit"],
+                "required": true,
+                "properties": {
+                  "id": {
+                    "description": "Attribute id.",
+                    "type": "integer",
+                    "required": true
+                  },
+                  "title": {
+                    "description": "Attribute title.",
+                    "type": "string",
+                    "readonly": true
+                  },
+                  "terms": {
+                    "description": "Attribute terms.",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "description": "Attribute term id.",
+                          "type": "integer",
+                          "required": true
+                        },
+                        "name": {
+                          "description": "Attribute term name.",
+                          "type": "string",
+                          "readonly": true
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "required": false
+            }
+          }
+        }
+      ],
+      "_links": {
+        "self": [
+          {
+            "href": "https://increible.shop/wp-json/mphb/v1/accommodation_types/batch"
+          }
+        ]
+      }
+    }
+  },
+  "_links": { "up": [{ "href": "https://increible.shop/wp-json/" }] }
+}
