@@ -1,7 +1,8 @@
 const whatsappModels = require('../models/whatsapp')
-const { getBookings } = require('../api/motopress/bookings')
+const { getBookingsAvailability } = require('../api/motopress/bookings')
 const optionsIds = require('../constants/optionsIds')
 const { steps } = require('../constants/boot')
+const { convertDateFormat } = require('../utils/date')
 
 const https = require('https')
 
@@ -94,7 +95,7 @@ function handleCheckOutStep(messageObject, number) {
   const newUserState = {
     ...userState,
     prevStep: steps.CHECK_OUT,
-    checkIn: messageObject.text,
+    checkIn: convertDateFormat(messageObject.text),
   }
 
   userState = newUserState
@@ -110,7 +111,7 @@ function handleRequestNumberOfAdultsStep(messageObject, number) {
   const newUserState = {
     ...userState,
     prevStep: steps.NUMBER_OF_ADULTS,
-    checkOut: messageObject.text,
+    checkOut: convertDateFormat(messageObject.text),
   }
 
   userState = newUserState
@@ -123,12 +124,34 @@ function handleRequestNumberOfChildrenStep(messageObject, number) {
   const newUserState = {
     ...userState,
     prevStep: steps.NUMBER_OF_CHILDREN,
-    numberOfAdults: messageObject.text,
+    numberOfAdults: parseInt(messageObject.text),
   }
 
   userState = newUserState
 
   const model = whatsappModels.message('Ingresa el número de niños', number)
+  return model
+}
+
+async function handleRequestAvailability(messageObject, number) {
+  const newUserState = {
+    ...userState,
+    prevStep: steps.BOOKINGS_AVAILABILITY,
+    numberOfChildren: parseInt(messageObject.text),
+  }
+
+  userState = newUserState
+
+  const availabilityData = await getBookingsAvailability(
+    userState.checkIn,
+    userState.checkOut,
+    userState.numberOfAdults,
+    userState.numberOfChildren
+  )
+
+  console.log('Bookings availability ====>', availabilityData)
+
+  const model = whatsappModels.message('Availability fetched', number)
   return model
 }
 
@@ -150,6 +173,9 @@ async function processMessage(messages, number) {
     models.push(model)
   } else if (userState.prevStep === steps.NUMBER_OF_ADULTS) {
     const model = handleRequestNumberOfChildrenStep(messageObject, number)
+    models.push(model)
+  } else if (userState.prevStep === steps.NUMBER_OF_CHILDREN) {
+    const model = await handleRequestAvailability(messageObject, number)
     models.push(model)
   } else if (normalizeMessage.includes('hola')) {
     /* const bookings = await getBookings() */
