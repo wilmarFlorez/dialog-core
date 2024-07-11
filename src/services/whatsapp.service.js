@@ -73,6 +73,55 @@ function getTextUser(messages) {
   return message
 }
 
+function handleCheckInStep(messageObject) {
+  const newUserState = {
+    ...userState,
+    prevStep: steps.CHECK_IN,
+  }
+
+  userState = newUserState
+
+  if (messageObject.id === optionsIds.BOOK_ACCOMODATION) {
+    const model = whatsappModels.message(
+      'Ingresa el día de llegada con la siguiente estructura: *dia/mes/año*\n Ejemplo: *1/01/2024*',
+      number
+    )
+    return model
+  }
+}
+
+function handleCheckOutStep(messageObject) {
+  let model = null
+
+  const newUserState = {
+    ...userState,
+    prevStep: steps.CHECK_OUT,
+    checkIn: messageObject.text,
+  }
+
+  userState = newUserState
+
+  model = whatsappModels.message(
+    'Ingresa el día de Salida con la siguiente estructura: *dia/mes/año*\n Ejemplo: *5/01/2024*',
+    number
+  )
+  return model
+}
+
+function handleRequestNumberOfAdultsStep() {
+  let model = null
+  userState.prevStep = steps.NUMBER_OF_ADULTS
+  model = whatsappModels.message('Ingresa el número de adultos', number)
+  return model
+}
+
+function handleRequestNumberOfChildrenStep() {
+  let model = null
+  userState.prevStep = steps.NUMBER_OF_CHILDREN
+  model = whatsappModels.message('Ingresa el número de niños', number)
+  return model
+}
+
 async function processMessage(messages, number) {
   const messageObject = getTextUser(messages)
 
@@ -83,32 +132,16 @@ async function processMessage(messages, number) {
     messageObject.text && messageObject.text.toLowerCase()
 
   if (messageObject.type === 'list_reply') {
-    let model = null
-    userState.step = steps.CHECK_IN
-    if (messageObject.id === optionsIds.BOOK_ACCOMODATION) {
-      model = whatsappModels.message(
-        'Ingresa el día de llegada con la siguiente estructura: *dia/mes/año*\n Ejemplo: *1/01/2024*',
-        number
-      )
-    }
+    const model = handleCheckInStep(messageObject)
     models.push(model)
-  } else if (userState.step === steps.CHECK_IN) {
-    let model = null
-    userState.step = steps.CHECK_OUT
-    model = whatsappModels.message(
-      'Ingresa el día de Salida con la siguiente estructura: *dia/mes/año*\n Ejemplo: *5/01/2024*',
-      number
-    )
+  } else if (userState.prevStep === steps.CHECK_IN) {
+    const model = handleCheckOutStep(messageObject)
     models.push(model)
-  } else if (userState.step === steps.CHECK_OUT) {
-    let model = null
-    userState.step = steps.NUMBER_OF_ADULTS
-    model = whatsappModels.message('Ingresa el número de adultos', number)
+  } else if (userState.prevStep === steps.CHECK_OUT) {
+    const model = handleRequestNumberOfAdultsStep()
     models.push(model)
-  } else if (userState.step === steps.NUMBER_OF_ADULTS) {
-    let model = null
-    userState.step = steps.NUMBER_OF_CHILDREN
-    model = whatsappModels.message('Ingresa el número de niños', number)
+  } else if (userState.prevStep === steps.NUMBER_OF_ADULTS) {
+    const model = handleRequestNumberOfChildrenStep()
     models.push(model)
   } else if (normalizeMessage.includes('hola')) {
     /* const bookings = await getBookings() */
