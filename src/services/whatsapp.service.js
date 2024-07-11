@@ -91,8 +91,6 @@ function handleCheckInStep(messageObject, number) {
 }
 
 function handleCheckOutStep(messageObject, number) {
-  let model = null
-
   const newUserState = {
     ...userState,
     prevStep: steps.CHECK_OUT,
@@ -101,31 +99,41 @@ function handleCheckOutStep(messageObject, number) {
 
   userState = newUserState
 
-  model = whatsappModels.message(
+  const model = whatsappModels.message(
     'Ingresa el día de Salida con la siguiente estructura: *dia/mes/año*\n Ejemplo: *5/01/2024*',
     number
   )
   return model
 }
 
-function handleRequestNumberOfAdultsStep() {
-  let model = null
-  userState.prevStep = steps.NUMBER_OF_ADULTS
-  model = whatsappModels.message('Ingresa el número de adultos', number)
+function handleRequestNumberOfAdultsStep(messageObject, number) {
+  const newUserState = {
+    ...userState,
+    prevStep: steps.NUMBER_OF_ADULTS,
+    checkOut: messageObject.text,
+  }
+
+  userState = newUserState
+
+  const model = whatsappModels.message('Ingresa el número de adultos', number)
   return model
 }
 
-function handleRequestNumberOfChildrenStep() {
-  let model = null
-  userState.prevStep = steps.NUMBER_OF_CHILDREN
-  model = whatsappModels.message('Ingresa el número de niños', number)
+function handleRequestNumberOfChildrenStep(messageObject, number) {
+  const newUserState = {
+    ...userState,
+    prevStep: steps.NUMBER_OF_CHILDREN,
+    numberOfAdults: messageObject.text,
+  }
+
+  userState = newUserState
+
+  const model = whatsappModels.message('Ingresa el número de niños', number)
   return model
 }
 
 async function processMessage(messages, number) {
   const messageObject = getTextUser(messages)
-
-  console.log('userState =========>', userState)
 
   let models = []
   const normalizeMessage =
@@ -138,10 +146,10 @@ async function processMessage(messages, number) {
     const model = handleCheckOutStep(messageObject, number)
     models.push(model)
   } else if (userState.prevStep === steps.CHECK_OUT) {
-    const model = handleRequestNumberOfAdultsStep()
+    const model = handleRequestNumberOfAdultsStep(messageObject, number)
     models.push(model)
   } else if (userState.prevStep === steps.NUMBER_OF_ADULTS) {
-    const model = handleRequestNumberOfChildrenStep()
+    const model = handleRequestNumberOfChildrenStep(messageObject, number)
     models.push(model)
   } else if (normalizeMessage.includes('hola')) {
     /* const bookings = await getBookings() */
@@ -190,9 +198,9 @@ async function processMessage(messages, number) {
   models.forEach((model) => {
     sendMessage(model)
   })
-}
 
-function processInteractiveMessage() {}
+  console.log('userState =========>', userState)
+}
 
 module.exports = {
   sendMessage,
