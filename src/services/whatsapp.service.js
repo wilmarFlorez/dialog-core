@@ -73,7 +73,7 @@ function getTextUser(messages) {
   return message
 }
 
-function handleCheckInStep(messageObject) {
+function handleCheckInStep(messageObject, number) {
   const newUserState = {
     ...userState,
     prevStep: steps.CHECK_IN,
@@ -90,7 +90,7 @@ function handleCheckInStep(messageObject) {
   }
 }
 
-function handleCheckOutStep(messageObject) {
+function handleCheckOutStep(messageObject, number) {
   let model = null
 
   const newUserState = {
@@ -132,10 +132,10 @@ async function processMessage(messages, number) {
     messageObject.text && messageObject.text.toLowerCase()
 
   if (messageObject.type === 'list_reply') {
-    const model = handleCheckInStep(messageObject)
+    const model = handleCheckInStep(messageObject, number)
     models.push(model)
   } else if (userState.prevStep === steps.CHECK_IN) {
-    const model = handleCheckOutStep(messageObject)
+    const model = handleCheckOutStep(messageObject, number)
     models.push(model)
   } else if (userState.prevStep === steps.CHECK_OUT) {
     const model = handleRequestNumberOfAdultsStep()
