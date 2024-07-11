@@ -11,4 +11,21 @@ async function getBookings() {
   }
 }
 
-module.exports = { getBookings }
+async function getBookingsAvailability(
+  checkIn,
+  checkOut,
+  numberOfAdults,
+  numberOfChildren
+) {
+  try {
+    const response = await motopressService.get(
+      `bookings/availability?check_in_date=${checkIn}&check_out_date=${checkOut}&adults=${numberOfAdults}&children=${numberOfChildren}`
+    )
+    return response.availability
+  } catch (error) {
+    console.error('Error fetching bookings availability:', error)
+    throw error
+  }
+}
+
+module.exports = { getBookings, getBookingsAvailability }
