@@ -149,8 +149,6 @@ async function handleRequestAvailability(messageObject, number) {
     userState.numberOfChildren
   )
 
-  console.log('Bookings availability ====>', availabilityData)
-
   const model = whatsappModels.message('Availability fetched', number)
   return model
 }
