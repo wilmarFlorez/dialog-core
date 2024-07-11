@@ -6,7 +6,7 @@ const { steps } = require('../constants/boot')
 const https = require('https')
 
 // state
-const userState = {}
+let userState = {}
 
 function sendMessage(messageObject) {
   const options = {
