@@ -154,21 +154,21 @@ async function handleRequestAvailability(messageObject, number) {
 
   const newAvailabilityData = availabilityData.slice(0, 4)
 
-  const rows = newAvailabilityData.map((availabilityItem, index) => {
-    return {
-      id: index,
-      title: validateMaxLength(`$${availabilityItem.base_price}`, 24),
-      description: validateMaxLength(availabilityItem.title, 55),
-    }
+  let newText = null
+  newAvailabilityData.forEach((availabilityItem, index) => {
+    newText = `${newText}\n\n${index + 1} *Alojamiento:* ${validateMaxLength(
+      availabilityItem.title,
+      55
+    )}\n*Costo:*${validateMaxLength(`$${availabilityItem.base_price}`, 24)}`
   })
 
-  console.log('Rows', rows)
+  console.log('Text', newText)
 
-  let listModel = whatsappModels.interactiveList(number, rows)
+  let model = whatsappModels.message(newText, number)
 
-  console.log('List model before ===>', listModel)
+  console.log('List model before ===>', model)
 
-  return listModel
+  return model
 }
 
 async function processMessage(messages, number) {
