@@ -154,17 +154,19 @@ async function handleRequestAvailability(messageObject, number) {
 
   const newAvailabilityData = availabilityData.slice(0, 4)
 
-  let newText = null
+  let textList = 'Selecciona una opción:'
   newAvailabilityData.forEach((availabilityItem, index) => {
-    newText = `${newText}\n\n${index + 1} *Alojamiento:* ${validateMaxLength(
+    textList = `${textList}\n\n${index + 1}. *Alojamiento:* ${validateMaxLength(
       availabilityItem.title,
-      55
-    )}\n*Costo:*${validateMaxLength(`$${availabilityItem.base_price}`, 24)}`
+      65
+    )}\n*  Costo: *${validateMaxLength(`$${availabilityItem.base_price}`, 24)}`
   })
 
-  console.log('Text', newText)
+  textList = `${textList}\n\n5. Ver más opciones\n\n 6. Volver al menú anterior`
 
-  let model = whatsappModels.message(newText, number)
+  console.log('Text', textList)
+
+  let model = whatsappModels.message(textList, number)
 
   console.log('List model before ===>', model)
 
