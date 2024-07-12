@@ -147,23 +147,36 @@ async function handleRequestAvailability(messageObject, number) {
     userState.numberOfChildren
   )
 
-  const newBookingsAvailable = availabilityData
-    .slice(
-      userState.startBookingsAvailableList,
-      userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
-    )
-    .forEach(async (booking) => {
-      const accommodation = await getAccommodationById(
-        booking.accommodation_type
+  const newBookingsAvailable = await Promise.all(
+    availabilityData
+      .slice(
+        userState.startBookingsAvailableList,
+        userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
       )
+      .map(async (booking) => {
+        try {
+          const accommodation = await getAccommodationById(
+            booking.accommodation_type
+          )
 
-      return {
-        ...booking,
-        accommodation: {
-          ...accommodation,
-        },
-      }
-    })
+          return {
+            ...booking,
+            accommodation: {
+              ...accommodation,
+            },
+          }
+        } catch (error) {
+          console.error(
+            `Error fetching accommodation for booking ${booking.accommodation_type}`
+          )
+
+          return {
+            ...booking,
+            accommodation: null,
+          }
+        }
+      })
+  )
 
   console.log('NEW BOOKINGS AVAILABLE', newBookingsAvailable)
 
