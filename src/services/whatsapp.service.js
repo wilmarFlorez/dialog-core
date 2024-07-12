@@ -149,6 +149,9 @@ async function handleRequestAvailability(messageObject, number) {
     userState.numberOfChildren
   )
 
+  console.log('availabilityData =>', availabilityData)
+  console.log('availabilityData sliced =>', availabilityData.slice(0, 4))
+
   const newAvailabilityData = availabilityData.slice(0, 4)
 
   const rows = newAvailabilityData.map((availabilityItem, index) => {
