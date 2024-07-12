@@ -28,7 +28,8 @@ async function getBookingsAvailability(
       },
     })
 
-    return response.availability
+    console.log('RESPONSE ======>', response)
+    return response.availability  
   } catch (error) {
     console.error('Error fetching bookings availability:', error)
     throw error
