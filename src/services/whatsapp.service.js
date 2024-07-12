@@ -1,14 +1,17 @@
 const whatsappModels = require('../models/whatsapp')
 const { getBookingsAvailability } = require('../api/motopress/bookings')
 const optionsIds = require('../constants/optionsIds')
-const { steps } = require('../constants/boot')
+const { steps, MAX_LENGTH_BOOKINGS_AVAILABLE } = require('../constants/boot')
 const { convertDateFormat } = require('../utils/date')
 const { validateMaxLength } = require('../utils/string')
 
 const https = require('https')
 
 // state
-let userState = {}
+let userState = {
+  startBookingsAvailableList: 0,
+  bookingsAvailable: [],
+}
 
 function sendMessage(messageObject) {
   const options = {
@@ -135,14 +138,6 @@ function handleRequestNumberOfChildrenStep(messageObject, number) {
 }
 
 async function handleRequestAvailability(messageObject, number) {
-  const newUserState = {
-    ...userState,
-    prevStep: steps.BOOKINGS_AVAILABILITY,
-    numberOfChildren: parseInt(messageObject.text),
-  }
-
-  userState = newUserState
-
   const availabilityData = await getBookingsAvailability(
     userState.checkIn,
     userState.checkOut,
@@ -150,9 +145,27 @@ async function handleRequestAvailability(messageObject, number) {
     userState.numberOfChildren
   )
 
-  console.log('availabilityData sliced =>', availabilityData.slice(0, 4))
+  const newUserState = {
+    ...userState,
+    prevStep: steps.BOOKINGS_AVAILABILITY,
+    numberOfChildren: parseInt(messageObject.text),
+    bookingsAvailable: availabilityData,
+  }
 
-  const newAvailabilityData = availabilityData.slice(0, 4)
+  userState = newUserState
+
+  console.log(
+    'availabilityData sliced =>',
+    availabilityData.slice(
+      userState.startBookingsAvailableList,
+      userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
+    )
+  )
+
+  const newAvailabilityData = availabilityData.slice(
+    userState.startBookingsAvailableList,
+    userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
+  )
 
   let textList = 'Selecciona una opción:'
   newAvailabilityData.forEach((availabilityItem, index) => {
@@ -162,15 +175,59 @@ async function handleRequestAvailability(messageObject, number) {
     )}\n *Costo:* ${validateMaxLength(`$${availabilityItem.base_price}`, 24)}`
   })
 
-  textList = `${textList}\n\n5. Ver más opciones\n\n 6. Volver al menú anterior`
-
-  console.log('Text', textList)
+  textList = `${textList}\n\n${
+    MAX_LENGTH_BOOKINGS_AVAILABLE + 1
+  }. Ver más opciones\n\n ${
+    MAX_LENGTH_BOOKINGS_AVAILABLE + 2
+  }. Volver al menú anterior`
 
   let model = whatsappModels.message(textList, number)
 
-  console.log('List model before ===>', model)
-
   return model
+}
+
+function loadMoreBookingsAvailability(messageObject, number) {
+  if (parseInt(messageObject.text) === 5) {
+    const newUserState = {
+      ...userState,
+      prevStep: steps.BOOKINGS_AVAILABILITY,
+      startBookingsAvailableList:
+        userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE,
+    }
+
+    userState = newUserState
+
+    const newAvailabilityData = userState.bookingsAvailable.slice(
+      newUserState.startBookingsAvailableList,
+      newUserState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
+    )
+
+    let textList = 'Selecciona una opción:'
+    newAvailabilityData.forEach((availabilityItem, index) => {
+      textList = `${textList}\n\n${
+        index + 1
+      }. *Alojamiento:* ${validateMaxLength(
+        availabilityItem.title,
+        65
+      )}\n *Costo:* ${validateMaxLength(`$${availabilityItem.base_price}`, 24)}`
+    })
+
+    textList = `${textList}\n\n${
+      MAX_LENGTH_BOOKINGS_AVAILABLE + 1
+    }. Ver más opciones\n\n ${
+      MAX_LENGTH_BOOKINGS_AVAILABLE + 2
+    }. Volver al menú anterior`
+
+    let model = whatsappModels.message(textList, number)
+
+    return model
+  } else {
+    const model = whatsappModels.message(
+      'Lo siento no comprendí tu respuesta,por favor ingresa el número correspondiente a la opción que deseas elegir',
+      number
+    )
+    return model
+  }
 }
 
 async function processMessage(messages, number) {
@@ -196,6 +253,9 @@ async function processMessage(messages, number) {
     const model = await handleRequestAvailability(messageObject, number)
 
     console.log('List model after', model)
+    models.push(model)
+  } else if (userState.prevStep === steps.BOOKINGS_AVAILABILITY) {
+    const model = loadMoreBookingsAvailability(messageObject, number)
     models.push(model)
   } else if (normalizeMessage.includes('hola')) {
     let model = whatsappModels.message(

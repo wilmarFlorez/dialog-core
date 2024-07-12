@@ -7,6 +7,9 @@ const steps = {
   BOOKINGS_AVAILABILITY: 'bookings_availability',
 }
 
+const MAX_LENGTH_BOOKINGS_AVAILABLE = 4
+
 module.exports = {
   steps,
+  MAX_LENGTH_BOOKINGS_AVAILABLE,
 }
