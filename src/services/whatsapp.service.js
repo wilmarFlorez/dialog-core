@@ -165,6 +165,8 @@ async function handleRequestAvailability(messageObject, number) {
       }
     })
 
+  console.log('NEW BOOKINGS AVAILABLE', newBookingsAvailable)
+
   // Update state
   const newUserState = {
     ...userState,
