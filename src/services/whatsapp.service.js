@@ -11,6 +11,7 @@ const https = require('https')
 let userState = {
   startBookingsAvailableList: 0,
   bookingsAvailable: [],
+  currentBookingsAvailable: [],
 }
 
 function sendMessage(messageObject) {
@@ -145,27 +146,22 @@ async function handleRequestAvailability(messageObject, number) {
     userState.numberOfChildren
   )
 
+  const newAvailabilityData = availabilityData.slice(
+    userState.startBookingsAvailableList,
+    userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
+  )
+
+  // Update state
   const newUserState = {
     ...userState,
     prevStep: steps.BOOKINGS_AVAILABILITY,
     numberOfChildren: parseInt(messageObject.text),
     bookingsAvailable: availabilityData,
+    currentBookingsAvailable: newAvailabilityData,
   }
 
   userState = newUserState
-
-  console.log(
-    'availabilityData sliced =>',
-    availabilityData.slice(
-      userState.startBookingsAvailableList,
-      userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
-    )
-  )
-
-  const newAvailabilityData = availabilityData.slice(
-    userState.startBookingsAvailableList,
-    userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
-  )
+  // End update state
 
   let textList = 'Selecciona una opción:'
   newAvailabilityData.forEach((availabilityItem, index) => {
@@ -187,23 +183,28 @@ async function handleRequestAvailability(messageObject, number) {
 }
 
 function loadMoreBookingsAvailability(messageObject, number) {
+  console.log('Option Selected ====>', parseInt(messageObject.text))
+
   if (parseInt(messageObject.text) === 5) {
+    const newBookingsAvailable = userState.bookingsAvailable.slice(
+      newUserState.startBookingsAvailableList,
+      newUserState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
+    )
+
+    // Update state
     const newUserState = {
       ...userState,
       prevStep: steps.BOOKINGS_AVAILABILITY,
       startBookingsAvailableList:
         userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE,
+      currentBookingsAvailable: newBookingsAvailable,
     }
 
     userState = newUserState
-
-    const newAvailabilityData = userState.bookingsAvailable.slice(
-      newUserState.startBookingsAvailableList,
-      newUserState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
-    )
+    // End update state
 
     let textList = 'Selecciona una opción:'
-    newAvailabilityData.forEach((availabilityItem, index) => {
+    newBookingsAvailable.forEach((availabilityItem, index) => {
       textList = `${textList}\n\n${
         index + 1
       }. *Alojamiento:* ${validateMaxLength(
@@ -220,6 +221,22 @@ function loadMoreBookingsAvailability(messageObject, number) {
 
     let model = whatsappModels.message(textList, number)
 
+    return model
+  }
+  if (
+    parseInt(messageObject.text - 1) <=
+      newUserState.currentBookingsAvailable.length &&
+    parseInt(messageObject.text - 1) > 0
+  ) {
+    const selectedItem =
+      newUserState.currentBookingsAvailable[parseInt(messageObject.text - 1)]
+
+    console.log('SELECTED ITEM ========>', selectedItem)
+
+    const model = whatsappModels.message(
+      `Seleccionaste:${selectedItem.title}`,
+      number
+    )
     return model
   } else {
     const model = whatsappModels.message(
