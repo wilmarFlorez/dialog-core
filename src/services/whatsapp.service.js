@@ -186,22 +186,24 @@ function loadMoreBookingsAvailability(messageObject, number) {
   console.log('Option Selected ====>', parseInt(messageObject.text))
 
   if (parseInt(messageObject.text) === 5) {
+    const newStartBookingsAvailableList =
+      userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
+
+    const newBookingsAvailable = userState.bookingsAvailable.slice(
+      newStartBookingsAvailableList,
+      newStartBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
+    )
+
     // Update state
     const newUserState = {
       ...userState,
       prevStep: steps.BOOKINGS_AVAILABILITY,
-      startBookingsAvailableList:
-        userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE,
+      startBookingsAvailableList: newStartBookingsAvailableList,
       currentBookingsAvailable: newBookingsAvailable,
     }
 
     userState = newUserState
     // End update state
-
-    const newBookingsAvailable = userState.bookingsAvailable.slice(
-      newUserState.startBookingsAvailableList,
-      newUserState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
-    )
 
     let textList = 'Selecciona una opción:'
     newBookingsAvailable.forEach((availabilityItem, index) => {
