@@ -1,5 +1,6 @@
 const whatsappModels = require('../models/whatsapp')
 const { getBookingsAvailability } = require('../api/motopress/bookings')
+const { getAccommodationById } = require('../api/motopress/accommodations')
 const optionsIds = require('../constants/optionsIds')
 const { steps, MAX_LENGTH_BOOKINGS_AVAILABLE } = require('../constants/boot')
 const { convertDateFormat } = require('../utils/date')
@@ -146,10 +147,23 @@ async function handleRequestAvailability(messageObject, number) {
     userState.numberOfChildren
   )
 
-  const newAvailabilityData = availabilityData.slice(
-    userState.startBookingsAvailableList,
-    userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
-  )
+  const newBookingsAvailable = availabilityData
+    .slice(
+      userState.startBookingsAvailableList,
+      userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
+    )
+    .forEach(async (booking) => {
+      const accommodation = await getAccommodationById(
+        booking.accommodation_type
+      )
+
+      return {
+        ...booking,
+        accommodation: {
+          ...accommodation,
+        },
+      }
+    })
 
   // Update state
   const newUserState = {
@@ -157,18 +171,21 @@ async function handleRequestAvailability(messageObject, number) {
     prevStep: steps.BOOKINGS_AVAILABILITY,
     numberOfChildren: parseInt(messageObject.text),
     bookingsAvailable: availabilityData,
-    currentBookingsAvailable: newAvailabilityData,
+    currentBookingsAvailable: newBookingsAvailable,
   }
 
   userState = newUserState
   // End update state
 
   let textList = 'Selecciona una opción:'
-  newAvailabilityData.forEach((availabilityItem, index) => {
+  newBookingsAvailable.forEach((availabilityItem, index) => {
     textList = `${textList}\n\n${index + 1}. *Alojamiento:* ${validateMaxLength(
       availabilityItem.title,
       65
-    )}\n *Costo:* ${validateMaxLength(`$${availabilityItem.base_price}`, 24)}`
+    )}\n *Costo:* ${validateMaxLength(
+      `$${availabilityItem.base_price}`,
+      24
+    )}\n*Estado:* ${availabilityItem.accommodation.status}`
   })
 
   textList = `${textList}\n\n${
