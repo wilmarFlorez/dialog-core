@@ -3,6 +3,7 @@ const { getBookingsAvailability } = require('../api/motopress/bookings')
 const optionsIds = require('../constants/optionsIds')
 const { steps } = require('../constants/boot')
 const { convertDateFormat } = require('../utils/date')
+const { validateMaxLength } = require('../utils/string')
 
 const https = require('https')
 
@@ -149,7 +150,6 @@ async function handleRequestAvailability(messageObject, number) {
     userState.numberOfChildren
   )
 
-  console.log('availabilityData =>', availabilityData)
   console.log('availabilityData sliced =>', availabilityData.slice(0, 4))
 
   const newAvailabilityData = availabilityData.slice(0, 4)
@@ -157,12 +157,16 @@ async function handleRequestAvailability(messageObject, number) {
   const rows = newAvailabilityData.map((availabilityItem, index) => {
     return {
       id: index,
-      title: availabilityItem.title,
-      description: `$${availabilityItem.base_price}`,
+      title: validateMaxLength(`$${availabilityItem.base_price}`, 24),
+      description: validateMaxLength(availabilityItem.title, 55),
     }
   })
 
+  console.log('Rows', rows)
+
   let listModel = whatsappModels.interactiveList(number, rows)
+
+  console.log('List model before ===>', listModel)
 
   return listModel
 }
@@ -188,6 +192,8 @@ async function processMessage(messages, number) {
     models.push(model)
   } else if (userState.prevStep === steps.NUMBER_OF_CHILDREN) {
     const model = await handleRequestAvailability(messageObject, number)
+
+    console.log('List model after', model)
     models.push(model)
   } else if (normalizeMessage.includes('hola')) {
     let model = whatsappModels.message(
