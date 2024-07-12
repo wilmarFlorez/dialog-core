@@ -226,12 +226,11 @@ function loadMoreBookingsAvailability(messageObject, number) {
     return model
   }
   if (
-    parseInt(messageObject.text - 1) <=
-      newUserState.currentBookingsAvailable.length &&
-    parseInt(messageObject.text - 1) > 0
+    parseInt(messageObject.text) <= userState.currentBookingsAvailable.length &&
+    parseInt(messageObject.text) > 0
   ) {
     const selectedItem =
-      newUserState.currentBookingsAvailable[parseInt(messageObject.text - 1)]
+      userState.currentBookingsAvailable[parseInt(messageObject.text - 1)]
 
     console.log('SELECTED ITEM ========>', selectedItem)
 
