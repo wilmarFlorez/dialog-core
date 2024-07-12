@@ -149,8 +149,19 @@ async function handleRequestAvailability(messageObject, number) {
     userState.numberOfChildren
   )
 
-  const model = whatsappModels.message('Availability fetched', number)
-  return model
+  const newAvailabilityData = availabilityData.slice(0, 4)
+
+  const rows = newAvailabilityData.map((availabilityItem, index) => {
+    return {
+      id: index,
+      title: availabilityItem.title,
+      description: `$${availabilityItem.base_price}`,
+    }
+  })
+
+  let listModel = whatsappModels.interactiveList(number, rows)
+
+  return listModel
 }
 
 async function processMessage(messages, number) {
@@ -176,8 +187,6 @@ async function processMessage(messages, number) {
     const model = await handleRequestAvailability(messageObject, number)
     models.push(model)
   } else if (normalizeMessage.includes('hola')) {
-    /* const bookings = await getBookings() */
-
     let model = whatsappModels.message(
       '¡Hola! Bienvenido, Soy tu asistente virtual Sofia. ¿En qué puedo ayudarte hoy?',
       number
