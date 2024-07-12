@@ -159,7 +159,7 @@ async function handleRequestAvailability(messageObject, number) {
     textList = `${textList}\n\n${index + 1}. *Alojamiento:* ${validateMaxLength(
       availabilityItem.title,
       65
-    )}\n*  Costo: *${validateMaxLength(`$${availabilityItem.base_price}`, 24)}`
+    )}\n *Costo:* ${validateMaxLength(`$${availabilityItem.base_price}`, 24)}`
   })
 
   textList = `${textList}\n\n5. Ver más opciones\n\n 6. Volver al menú anterior`
