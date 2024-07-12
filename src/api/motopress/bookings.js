@@ -18,11 +18,15 @@ async function getBookingsAvailability(
   numberOfChildren
 ) {
   try {
-    const enpoint = `/bookings/availability?check_in_date=${checkIn}&check_out_date=${checkOut}&adults=${numberOfAdults}&children=${numberOfChildren}`
-    console.log('Enpoint ===>', enpoint)
-    const response = await motopressService.get(enpoint)
-
-    console.log('Bookings availability ====>', response)
+    const response = await motopressService.get(`/bookings/availability`, {
+      params: {
+        check_in_date: checkIn,
+        check_out_date: checkOut,
+        adults: numberOfAdults,
+        children: numberOfChildren,
+        _embed: true,
+      },
+    })
 
     return response.availability
   } catch (error) {
