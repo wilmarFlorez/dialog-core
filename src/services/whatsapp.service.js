@@ -198,6 +198,8 @@ async function handleRequestAvailability(messageObject, number) {
     amenities.forEach((amenity, index) => {
       return `${amenitiesText}\n${index + 1}. ${amenity.name}`
     })
+
+    return amenitiesText
   }
 
   let textList = 'Selecciona una opción:'
