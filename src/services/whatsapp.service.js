@@ -196,7 +196,7 @@ async function handleRequestAvailability(messageObject, number) {
     let amenitiesText = ''
 
     amenities.forEach((amenity, index) => {
-      return `${amenitiesText}\n${index + 1}. ${amenity.name}`
+      amenitiesText = `${amenitiesText}\n${index + 1}. ${amenity.name}`
     })
 
     return amenitiesText
@@ -365,7 +365,7 @@ async function processMessage(messages, number) {
     sendMessage(model)
   })
 
-  console.log('userState =========>', userState)
+  /* console.log('userState =========>', userState) */
 }
 
 module.exports = {
