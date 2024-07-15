@@ -192,6 +192,14 @@ async function handleRequestAvailability(messageObject, number) {
   userState = newUserState
   // End update state
 
+  const getAmenities = (amenities) => {
+    let amenitiesText = ''
+
+    amenities.forEach((amenity, index) => {
+      return `${amenitiesText}\n${index + 1}. ${amenity.name}`
+    })
+  }
+
   let textList = 'Selecciona una opción:'
   newBookingsAvailable.forEach((availabilityItem, index) => {
     textList = `${textList}\n\n${index + 1}. *Alojamiento:* ${validateMaxLength(
@@ -200,7 +208,9 @@ async function handleRequestAvailability(messageObject, number) {
     )}\n *Costo:* ${validateMaxLength(
       `$${availabilityItem.base_price}`,
       24
-    )}\n*Estado:* ${availabilityItem.accommodation.status}`
+    )}\n*Comodidades:* ${getAmenities(
+      availabilityItem.accommodation.amenities
+    )}`
   })
 
   textList = `${textList}\n\n${
