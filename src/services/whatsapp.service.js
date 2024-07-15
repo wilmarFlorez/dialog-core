@@ -207,12 +207,12 @@ async function handleRequestAvailability(messageObject, number) {
     textList = `${textList}\n\n${index + 1}. *Alojamiento:* ${validateMaxLength(
       availabilityItem.title,
       65
-    )}\n *Costo:* ${validateMaxLength(
+    )}\n  *Costo:* ${validateMaxLength(
       `$${availabilityItem.base_price}`,
       24
-    )}\n*Comodidades:* ${getAmenities(
+    )}\n  *Comodidades:* ${getAmenities(
       availabilityItem.accommodation.amenities
-    )}`
+    )}\n  *Imagen:* ${availabilityItem.accommodation.images[0].src}`
   })
 
   textList = `${textList}\n\n${
