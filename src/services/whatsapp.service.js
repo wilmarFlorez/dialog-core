@@ -303,8 +303,12 @@ async function loadMoreBookingsAvailability(messageObject, number) {
   ) {
     const selectedItem =
       userState.currentBookingsAvailable[parseInt(messageObject.text - 1)]
+    
+    const accommodation = await getAccommodationById(
+      selectedItem.accommodation_type
+    )
 
-    console.log('SELECTED ITEM ========>', selectedItem)
+    console.log('ACCOMMODATION ========>', accommodation)
 
     const model = whatsappModels.message(
       `Seleccionaste:${selectedItem.title}`,
