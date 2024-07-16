@@ -139,7 +139,6 @@ function handleRequestNumberOfChildrenStep(messageObject, number) {
   return model
 }
 
-
 const getAmenities = (amenities) => {
   let amenitiesText = ''
 
@@ -225,7 +224,7 @@ async function handleRequestAvailability(messageObject, number) {
   return model
 }
 
-function loadMoreBookingsAvailability(messageObject, number) {
+async function loadMoreBookingsAvailability(messageObject, number) {
   console.log('Option Selected ====>', parseInt(messageObject.text))
 
   if (parseInt(messageObject.text) === 5) {
@@ -270,6 +269,8 @@ function loadMoreBookingsAvailability(messageObject, number) {
 
     userState = newUserState
     // End update state
+
+    console.log('LOAD MORE NEW BOOKINGS', newBookingsAvailable)
 
     let textList = 'Selecciona una opción:'
     newBookingsAvailable.forEach((availabilityItem, index) => {
@@ -344,7 +345,7 @@ async function processMessage(messages, number) {
     console.log('List model after', model)
     models.push(model)
   } else if (userState.prevStep === steps.BOOKINGS_AVAILABILITY) {
-    const model = loadMoreBookingsAvailability(messageObject, number)
+    const model = await loadMoreBookingsAvailability(messageObject, number)
     models.push(model)
   } else if (normalizeMessage.includes('hola')) {
     let model = whatsappModels.message(
