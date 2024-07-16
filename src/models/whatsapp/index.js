@@ -77,7 +77,7 @@ function document(documentUrl, number) {
   return data
 }
 
-function interactiveButtons(number, bodyText) {
+function interactiveButtons(number, bodyText, imageId, imageUrl) {
   const data = JSON.stringify({
     messaging_product: 'whatsapp',
     recipient_type: 'individual',
@@ -85,6 +85,13 @@ function interactiveButtons(number, bodyText) {
     type: 'interactive',
     interactive: {
       type: 'button',
+      header: {
+        type: 'image',
+        image: {
+          id: imageId,
+          link: imageUrl,
+        },
+      },
       body: {
         text: bodyText,
       },

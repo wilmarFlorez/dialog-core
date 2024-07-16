@@ -303,17 +303,22 @@ async function loadMoreBookingsAvailability(messageObject, number) {
   ) {
     const selectedItem =
       userState.currentBookingsAvailable[parseInt(messageObject.text - 1)]
-    
+
     const accommodation = await getAccommodationById(
       selectedItem.accommodation_type
     )
 
     console.log('ACCOMMODATION ========>', accommodation)
 
-    const model = whatsappModels.message(
-      `Seleccionaste:${selectedItem.title}`,
-      number
+    const bodyText = `${selectedItem.title}`
+
+    const model = whatsappModels.interactiveButtons(
+      number,
+      bodyText,
+      accommodation.images[0].id,
+      accommodation.images[0].src
     )
+
     return model
   } else {
     const model = whatsappModels.message(
