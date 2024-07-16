@@ -319,6 +319,8 @@ async function loadMoreBookingsAvailability(messageObject, number) {
       accommodation.images[0].src
     )
 
+    console.log('DETAIL MODEL 1', model)
+
     return model
   } else {
     const model = whatsappModels.message(
