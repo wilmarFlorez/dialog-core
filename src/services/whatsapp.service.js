@@ -355,6 +355,8 @@ async function processMessage(messages, number) {
     models.push(model)
   } else if (userState.prevStep === steps.BOOKINGS_AVAILABILITY) {
     const model = await loadMoreBookingsAvailability(messageObject, number)
+    console.log('DETAIL MODEL', model)
+
     models.push(model)
   } else if (normalizeMessage.includes('hola')) {
     let model = whatsappModels.message(

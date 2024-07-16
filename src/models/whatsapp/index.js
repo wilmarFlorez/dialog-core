@@ -99,7 +99,6 @@ function interactiveButtons(number, bodyText, imageId, imageUrl) {
       header: {
         type: 'image',
         image: {
-          /* id: imageId, */
           link: imageUrl,
         },
       },
