@@ -77,7 +77,7 @@ function document(documentUrl, number) {
   return data
 }
 
-function interactiveButtons(number) {
+function interactiveButtons(number, bodyText) {
   const data = JSON.stringify({
     messaging_product: 'whatsapp',
     recipient_type: 'individual',
@@ -86,22 +86,29 @@ function interactiveButtons(number) {
     interactive: {
       type: 'button',
       body: {
-        text: '¿Confirmas tu registro?',
+        text: bodyText,
       },
       action: {
         buttons: [
           {
             type: 'reply',
             reply: {
-              id: '1',
-              title: 'Si',
+              id: 'BOOK',
+              title: 'Reservar ahora',
             },
           },
           {
             type: 'reply',
             reply: {
-              id: '2',
-              title: 'No',
+              id: 'MENU_BACK',
+              title: 'Menú anterior',
+            },
+          },
+          {
+            type: 'reply',
+            reply: {
+              id: 'TALK_TO_AGENT',
+              title: 'Hablar con un agente',
             },
           },
         ],
