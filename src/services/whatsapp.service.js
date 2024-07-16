@@ -231,33 +231,35 @@ async function loadMoreBookingsAvailability(messageObject, number) {
     const newStartBookingsAvailableList =
       userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
 
-    const newBookingsAvailable = userState.bookingsAvailable
-      .slice(
-        newStartBookingsAvailableList,
-        newStartBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
-      )
-      .map(async (booking) => {
-        try {
-          const accommodation = await getAccommodationById(
-            booking.accommodation_type
-          )
+    const newBookingsAvailable = await Promise.all(
+      userState.bookingsAvailable
+        .slice(
+          newStartBookingsAvailableList,
+          newStartBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
+        )
+        .map(async (booking) => {
+          try {
+            const accommodation = await getAccommodationById(
+              booking.accommodation_type
+            )
 
-          return {
-            ...booking,
-            accommodation: {
-              ...accommodation,
-            },
+            return {
+              ...booking,
+              accommodation: {
+                ...accommodation,
+              },
+            }
+          } catch (error) {
+            console.error(
+              `Error fetching accommodation for booking ${booking.accommodation_type}`
+            )
+            return {
+              ...booking,
+              accommodation: null,
+            }
           }
-        } catch (error) {
-          console.error(
-            `Error fetching accommodation for booking ${booking.accommodation_type}`
-          )
-          return {
-            ...booking,
-            accommodation: null,
-          }
-        }
-      })
+        })
+    )
 
     // Update state
     const newUserState = {
