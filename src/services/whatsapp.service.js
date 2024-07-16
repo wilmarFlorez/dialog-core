@@ -201,7 +201,7 @@ async function handleRequestAvailability(messageObject, number) {
   // End update state
 
   let textList =
-    'Claro que si con mucho gusto, te comparto nuestra disponibilida\n  Por favor selecciona una opción:'
+    'Claro que si con mucho gusto, te comparto nuestra disponibilidad\n  Por favor escribe el número del alojamiento de tu interes:'
   newBookingsAvailable.forEach((availabilityItem, index) => {
     textList = `${textList}\n\n${index + 1}. *Alojamiento:* ${validateMaxLength(
       availabilityItem.title,
@@ -274,7 +274,7 @@ async function loadMoreBookingsAvailability(messageObject, number) {
     console.log('LOAD MORE NEW BOOKINGS', newBookingsAvailable)
 
     let textList =
-      'Claro que si con mucho gusto, te comparto nuestra disponibilida\n  Por favor selecciona una opción:'
+      'Claro que si con mucho gusto, te comparto nuestra disponibilidad\n  Por favor escribe el número del alojamiento de tu interes'
     newBookingsAvailable.forEach((availabilityItem, index) => {
       textList = `${textList}\n\n${
         index + 1
@@ -356,7 +356,7 @@ async function processMessage(messages, number) {
     const rows = [
       {
         id: optionsIds.BOOK_ACCOMODATION,
-        title: 'Reservar un alojamiento',
+        title: 'Toda la disponibilidad',
       },
       {
         id: optionsIds.TOURIST_PLANS,
