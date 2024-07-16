@@ -200,7 +200,8 @@ async function handleRequestAvailability(messageObject, number) {
   userState = newUserState
   // End update state
 
-  let textList = 'Selecciona una opción:'
+  let textList =
+    'Claro que si con mucho gusto, te comparto nuestra disponibilida\n  Por favor selecciona una opción:'
   newBookingsAvailable.forEach((availabilityItem, index) => {
     textList = `${textList}\n\n${index + 1}. *Alojamiento:* ${validateMaxLength(
       availabilityItem.title,
@@ -208,8 +209,6 @@ async function handleRequestAvailability(messageObject, number) {
     )}\n  *Costo:* ${validateMaxLength(
       `$${availabilityItem.base_price}`,
       24
-    )}\n  *Comodidades:* ${getAmenities(
-      availabilityItem.accommodation.amenities
     )}\n  *Imagen:* ${availabilityItem.accommodation.images[0].src}`
   })
 
@@ -274,7 +273,8 @@ async function loadMoreBookingsAvailability(messageObject, number) {
 
     console.log('LOAD MORE NEW BOOKINGS', newBookingsAvailable)
 
-    let textList = 'Selecciona una opción:'
+    let textList =
+      'Claro que si con mucho gusto, te comparto nuestra disponibilida\n  Por favor selecciona una opción:'
     newBookingsAvailable.forEach((availabilityItem, index) => {
       textList = `${textList}\n\n${
         index + 1
@@ -284,8 +284,6 @@ async function loadMoreBookingsAvailability(messageObject, number) {
       )}\n  *Costo:* ${validateMaxLength(
         `$${availabilityItem.base_price}`,
         24
-      )}\n  *Comodidades:* ${getAmenities(
-        availabilityItem.accommodation.amenities
       )}\n  *Imagen:* ${availabilityItem.accommodation.images[0].src}`
     })
 
