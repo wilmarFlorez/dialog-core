@@ -139,6 +139,17 @@ function handleRequestNumberOfChildrenStep(messageObject, number) {
   return model
 }
 
+
+const getAmenities = (amenities) => {
+  let amenitiesText = ''
+
+  amenities.forEach((amenity, index) => {
+    amenitiesText = `${amenitiesText}\n${index + 1}. ${amenity.name}`
+  })
+
+  return amenitiesText
+}
+
 async function handleRequestAvailability(messageObject, number) {
   const availabilityData = await getBookingsAvailability(
     userState.checkIn,
@@ -178,8 +189,6 @@ async function handleRequestAvailability(messageObject, number) {
       })
   )
 
-  console.log('NEW BOOKINGS AVAILABLE', newBookingsAvailable)
-
   // Update state
   const newUserState = {
     ...userState,
@@ -191,16 +200,6 @@ async function handleRequestAvailability(messageObject, number) {
 
   userState = newUserState
   // End update state
-
-  const getAmenities = (amenities) => {
-    let amenitiesText = ''
-
-    amenities.forEach((amenity, index) => {
-      amenitiesText = `${amenitiesText}\n${index + 1}. ${amenity.name}`
-    })
-
-    return amenitiesText
-  }
 
   let textList = 'Selecciona una opción:'
   newBookingsAvailable.forEach((availabilityItem, index) => {
@@ -233,10 +232,33 @@ function loadMoreBookingsAvailability(messageObject, number) {
     const newStartBookingsAvailableList =
       userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
 
-    const newBookingsAvailable = userState.bookingsAvailable.slice(
-      newStartBookingsAvailableList,
-      newStartBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
-    )
+    const newBookingsAvailable = userState.bookingsAvailable
+      .slice(
+        newStartBookingsAvailableList,
+        newStartBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
+      )
+      .map(async (booking) => {
+        try {
+          const accommodation = await getAccommodationById(
+            booking.accommodation_type
+          )
+
+          return {
+            ...booking,
+            accommodation: {
+              ...accommodation,
+            },
+          }
+        } catch (error) {
+          console.error(
+            `Error fetching accommodation for booking ${booking.accommodation_type}`
+          )
+          return {
+            ...booking,
+            accommodation: null,
+          }
+        }
+      })
 
     // Update state
     const newUserState = {
@@ -256,7 +278,12 @@ function loadMoreBookingsAvailability(messageObject, number) {
       }. *Alojamiento:* ${validateMaxLength(
         availabilityItem.title,
         65
-      )}\n *Costo:* ${validateMaxLength(`$${availabilityItem.base_price}`, 24)}`
+      )}\n  *Costo:* ${validateMaxLength(
+        `$${availabilityItem.base_price}`,
+        24
+      )}\n  *Comodidades:* ${getAmenities(
+        availabilityItem.accommodation.amenities
+      )}\n  *Imagen:* ${availabilityItem.accommodation.images[0].src}`
     })
 
     textList = `${textList}\n\n${
