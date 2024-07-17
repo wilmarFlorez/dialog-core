@@ -97,8 +97,10 @@ function interactiveButtons(number, bodyText, imageId, imageUrl) {
     interactive: {
       type: 'button',
       header: {
-        type: 'text',
-        text: 'workshop detail',
+        type: 'image',
+        image: {
+          link: 'https://cdn.pixabay.com/photo/2023/10/18/15/30/statue-8324499_640.jpg',
+        },
       },
       body: {
         text: bodyText,
