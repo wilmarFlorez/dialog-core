@@ -97,10 +97,8 @@ function interactiveButtons(number, bodyText, imageId, imageUrl) {
     interactive: {
       type: 'button',
       header: {
-        type: 'image',
-        image: {
-          link: imageUrl,
-        },
+        type: 'text',
+        text: 'workshop detail',
       },
       body: {
         text: bodyText,
