@@ -186,6 +186,22 @@ function location(number) {
   return data
 }
 
+
+function sendSticker(number) {
+  const data = JSON.stringify({
+    messaging_product: 'whatsapp',
+    recipient_type: 'individual',
+    to: number,
+    type: 'sticker',
+    sticker: {
+      link: 'https://lagocalima.com.co/wp-content/uploads/2024/03/habitacion-triple.webp',
+    },
+  })
+
+  return data
+}
+
+
 module.exports = {
   message,
   image,
@@ -195,4 +211,5 @@ module.exports = {
   interactiveButtons,
   interactiveList,
   location,
+  sendSticker,
 }
