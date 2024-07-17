@@ -194,7 +194,7 @@ function sendSticker(number) {
     to: number,
     type: 'sticker',
     sticker: {
-      link: 'https://lagocalima.com.co/wp-content/uploads/2024/03/habitacion-triple.webp',
+      link: 'https://cdn.pixabay.com/photo/2023/10/18/15/30/statue-8324499_640.jpg',
     },
   })
 
