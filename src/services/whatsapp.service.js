@@ -310,7 +310,7 @@ async function loadMoreBookingsAvailability(messageObject, number) {
 
     console.log('ACCOMMODATION ========>', accommodation)
 
-    const bodyText = `${selectedItem.title}`
+    /*  const bodyText = `${selectedItem.title}`
 
     const model = whatsappModels.interactiveButtons(
       number,
@@ -318,7 +318,9 @@ async function loadMoreBookingsAvailability(messageObject, number) {
       accommodation.images[0].id,
       accommodation.images[0].src
     )
+ */
 
+    const model = whatsappModels.sendSticker(number)
     console.log('DETAIL MODEL 1', model)
 
     return model
