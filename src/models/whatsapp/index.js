@@ -99,7 +99,7 @@ function interactiveButtons(number, bodyText, imageId, imageUrl) {
       header: {
         type: 'image',
         image: {
-          link: 'https://cdn.pixabay.com/photo/2023/10/18/15/30/statue-8324499_640.jpg',
+          link: 'https://lagocalima.com.co/wp-content/uploads/2024/03/habitacion-triple.webp',
         },
       },
       body: {
