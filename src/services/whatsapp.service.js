@@ -314,7 +314,7 @@ async function loadMoreBookingsAvailability(messageObject, number) {
        accommodation.amenities
      )}`
 
-     const model = whatsappModels.interactiveButtons(number, bodyText)
+     const model = whatsappModels.interactiveButtons(number, bodyText, null)
 
 
     return model
