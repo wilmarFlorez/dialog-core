@@ -310,11 +310,11 @@ async function loadMoreBookingsAvailability(messageObject, number) {
 
     console.log('ACCOMMODATION ========>', accommodation)
 
-     const bodyText = `*Alojamiento:*${
+     const bodyText = `*Alojamiento:* ${
        selectedItem.title
-     }\n*Comodidades:* ${getAmenities(
+     }\n\n*Comodidades:* ${getAmenities(
        accommodation.amenities
-     )}\n*Descripción:* ${accommodation.excerpt}\n*Precio:* ${
+     )}\n*Descripción:* ${accommodation.excerpt}\n\n*Precio:* ${
        selectedItem.base_price
      }`
 
