@@ -77,17 +77,8 @@ function document(documentUrl, number) {
   return data
 }
 
-function interactiveButtons(number, bodyText, imageId, imageUrl) {
-  console.log(
-    'number',
-    number,
-    'bodyText',
-    bodyText,
-    'imageId',
-    imageId,
-    'imageUrl',
-    imageUrl
-  )
+function interactiveButtons(number, bodyText, imageUrl) {
+  console.log('number', number, 'bodyText', bodyText, 'imageUrl', imageUrl)
 
   const data = JSON.stringify({
     messaging_product: 'whatsapp',
@@ -99,7 +90,7 @@ function interactiveButtons(number, bodyText, imageId, imageUrl) {
       header: {
         type: 'image',
         image: {
-          link: 'https://lagocalima.com.co/wp-content/uploads/2024/03/habitacion-triple.webp',
+          link: imageUrl,
         },
       },
       body: {
