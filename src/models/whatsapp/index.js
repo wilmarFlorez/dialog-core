@@ -78,7 +78,7 @@ function document(documentUrl, number) {
 }
 
 function interactiveButtons(number, bodyText) {
-  console.log('number', number, 'bodyText', bodyText, 'imageUrl', imageUrl)
+  console.log('number', number, 'bodyText', bodyText)
 
   const data = JSON.stringify({
     messaging_product: 'whatsapp',
