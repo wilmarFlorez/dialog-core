@@ -310,9 +310,13 @@ async function loadMoreBookingsAvailability(messageObject, number) {
 
     console.log('ACCOMMODATION ========>', accommodation)
 
-     const bodyText = `${selectedItem.title}\n*Comodidades:* ${getAmenities(
+     const bodyText = `*Alojamiento:*${
+       selectedItem.title
+     }\n*Comodidades:* ${getAmenities(
        accommodation.amenities
-     )}`
+     )}\n*Descripción:* ${accommodation.excerpt}\n*Precio:* ${
+       selectedItem.base_price
+     }`
 
      const model = whatsappModels.interactiveButtons(number, bodyText)
 
