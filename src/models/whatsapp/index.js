@@ -77,7 +77,7 @@ function document(documentUrl, number) {
   return data
 }
 
-function interactiveButtons(number, bodyText, imageUrl) {
+function interactiveButtons(number, bodyText) {
   console.log('number', number, 'bodyText', bodyText, 'imageUrl', imageUrl)
 
   const data = JSON.stringify({
@@ -87,12 +87,6 @@ function interactiveButtons(number, bodyText, imageUrl) {
     type: 'interactive',
     interactive: {
       type: 'button',
-      header: {
-        type: 'image',
-        image: {
-          link: imageUrl,
-        },
-      },
       body: {
         text: bodyText,
       },
