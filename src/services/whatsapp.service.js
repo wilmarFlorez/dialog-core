@@ -149,6 +149,16 @@ const getAmenities = (amenities) => {
   return amenitiesText
 }
 
+const getBookingImagesText = (images) => {
+  let imagesText = ''
+
+  images.forEach((image, index) => {
+    imagesText = `${imagesText}\n${index + 1}. ${image.src}`
+  })
+
+  return imagesText
+}
+
 async function handleRequestAvailability(messageObject, number) {
   const availabilityData = await getBookingsAvailability(
     userState.checkIn,
@@ -260,9 +270,11 @@ async function loadMoreBookingsAvailability(messageObject, number) {
       selectedItem.title
     }\n\n*Comodidades:* ${getAmenities(
       accommodation.amenities
-    )}\n*Descripción:* ${accommodation.excerpt}\n\n*Precio:* ${
-      selectedItem.base_price
-    }\n\n*Imagenes: ${accommodation.images[0].src}*`
+    )}\n*Descripción:* ${
+      accommodation.excerpt
+    }\n\n*Imagenes: ${getBookingImagesText(
+      accommodation.images
+    )}\n\n*Precio:* ${selectedItem.base_price}*`
 
     const model = whatsappModels.interactiveButtons(number, bodyText)
 
