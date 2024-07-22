@@ -180,10 +180,7 @@ async function handleRequestAvailability(messageObject, number) {
     textList = `${textList}\n\n${index + 1}. *Alojamiento:* ${validateMaxLength(
       availabilityItem.title,
       65
-    )}\n  *Costo:* ${validateMaxLength(
-      `$${availabilityItem.base_price}`,
-      24
-    )}\n  *Imagen:* ${availabilityItem.accommodation.images[0].src}`
+    )}\n  *Costo:* ${validateMaxLength(`$${availabilityItem.base_price}`, 24)}`
   })
 
   textList = `${textList}\n\n${
@@ -233,7 +230,7 @@ async function loadMoreBookingsAvailability(messageObject, number) {
       )}\n  *Costo:* ${validateMaxLength(
         `$${availabilityItem.base_price}`,
         24
-      )}\n  *Imagen:* ${availabilityItem.accommodation.images[0].src}`
+      )}`
     })
 
     textList = `${textList}\n\n${
@@ -265,7 +262,7 @@ async function loadMoreBookingsAvailability(messageObject, number) {
       accommodation.amenities
     )}\n*Descripción:* ${accommodation.excerpt}\n\n*Precio:* ${
       selectedItem.base_price
-    }`
+    }\n\n*Imagenes: ${accommodation.images[0].src}*`
 
     const model = whatsappModels.interactiveButtons(number, bodyText)
 
