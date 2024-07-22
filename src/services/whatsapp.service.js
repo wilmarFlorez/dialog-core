@@ -264,8 +264,6 @@ async function loadMoreBookingsAvailability(messageObject, number) {
       selectedItem.accommodation_type
     )
 
-    console.log('ACCOMMODATION ========>', accommodation)
-
     const bodyText = `*Alojamiento:* ${
       selectedItem.title
     }\n\n*Comodidades:* ${getAmenities(
@@ -275,6 +273,8 @@ async function loadMoreBookingsAvailability(messageObject, number) {
     }\n\n*Imagenes: ${getBookingImagesText(
       accommodation.images
     )}\n\n*Precio:* ${selectedItem.base_price}*`
+
+    console.log('BODY TEXT LENGHT ========>', bodyText.length)
 
     const model = whatsappModels.interactiveButtons(number, bodyText)
 
@@ -314,7 +314,6 @@ async function processMessage(messages, number) {
     models.push(model)
   } else if (userState.prevStep === steps.BOOKINGS_AVAILABILITY) {
     const model = await loadMoreBookingsAvailability(messageObject, number)
-    console.log('DETAIL MODEL', model)
 
     models.push(model)
   } else if (normalizeMessage.includes('hola')) {
