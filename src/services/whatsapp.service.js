@@ -274,7 +274,7 @@ async function loadMoreBookingsAvailability(messageObject, number) {
       accommodation.images
     )}\n\n*Precio:* ${selectedItem.base_price}*`
 
-    console.log('BODY TEXT LENGHT ========>', bodyText.length)
+    console.log('BODY TEXT LENGHT ========>', bodyText) 
 
     const model = whatsappModels.interactiveButtons(number, bodyText)
 
