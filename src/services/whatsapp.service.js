@@ -157,35 +157,9 @@ async function handleRequestAvailability(messageObject, number) {
     userState.numberOfChildren
   )
 
-  const newBookingsAvailable = await Promise.all(
-    availabilityData
-      .slice(
-        userState.startBookingsAvailableList,
-        userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
-      )
-      .map(async (booking) => {
-        try {
-          const accommodation = await getAccommodationById(
-            booking.accommodation_type
-          )
-
-          return {
-            ...booking,
-            accommodation: {
-              ...accommodation,
-            },
-          }
-        } catch (error) {
-          console.error(
-            `Error fetching accommodation for booking ${booking.accommodation_type}`
-          )
-
-          return {
-            ...booking,
-            accommodation: null,
-          }
-        }
-      })
+  const newBookingsAvailable = availabilityData.slice(
+    userState.startBookingsAvailableList,
+    userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
   )
 
   // Update state
@@ -230,34 +204,9 @@ async function loadMoreBookingsAvailability(messageObject, number) {
     const newStartBookingsAvailableList =
       userState.startBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
 
-    const newBookingsAvailable = await Promise.all(
-      userState.bookingsAvailable
-        .slice(
-          newStartBookingsAvailableList,
-          newStartBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
-        )
-        .map(async (booking) => {
-          try {
-            const accommodation = await getAccommodationById(
-              booking.accommodation_type
-            )
-
-            return {
-              ...booking,
-              accommodation: {
-                ...accommodation,
-              },
-            }
-          } catch (error) {
-            console.error(
-              `Error fetching accommodation for booking ${booking.accommodation_type}`
-            )
-            return {
-              ...booking,
-              accommodation: null,
-            }
-          }
-        })
+    const newBookingsAvailable = userState.bookingsAvailable.slice(
+      newStartBookingsAvailableList,
+      newStartBookingsAvailableList + MAX_LENGTH_BOOKINGS_AVAILABLE
     )
 
     // Update state
@@ -310,16 +259,15 @@ async function loadMoreBookingsAvailability(messageObject, number) {
 
     console.log('ACCOMMODATION ========>', accommodation)
 
-     const bodyText = `*Alojamiento:* ${
-       selectedItem.title
-     }\n\n*Comodidades:* ${getAmenities(
-       accommodation.amenities
-     )}\n*Descripción:* ${accommodation.excerpt}\n\n*Precio:* ${
-       selectedItem.base_price
-     }`
+    const bodyText = `*Alojamiento:* ${
+      selectedItem.title
+    }\n\n*Comodidades:* ${getAmenities(
+      accommodation.amenities
+    )}\n*Descripción:* ${accommodation.excerpt}\n\n*Precio:* ${
+      selectedItem.base_price
+    }`
 
-     const model = whatsappModels.interactiveButtons(number, bodyText)
-
+    const model = whatsappModels.interactiveButtons(number, bodyText)
 
     return model
   } else {
