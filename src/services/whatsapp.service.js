@@ -152,7 +152,7 @@ const getAmenities = (amenities) => {
 const getBookingImagesText = (images) => {
   let imagesText = ''
 
-  images.forEach((image, index) => {
+  images.slice(0, 4).forEach((image, index) => {
     imagesText = `${imagesText}\n${index + 1}. ${image.src}`
   })
 
@@ -274,7 +274,7 @@ async function loadMoreBookingsAvailability(messageObject, number) {
       accommodation.images
     )}\n\n*Precio:* ${selectedItem.base_price}*`
 
-    console.log('BODY TEXT LENGHT ========>', bodyText) 
+    console.log('BODY TEXT LENGHT ========>', bodyText.length)
 
     const model = whatsappModels.interactiveButtons(number, bodyText)
 
