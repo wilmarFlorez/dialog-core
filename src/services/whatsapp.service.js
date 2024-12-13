@@ -270,9 +270,9 @@ async function loadMoreBookingsAvailability(messageObject, number) {
       accommodation.amenities
     )}\n*Descripción:* ${
       accommodation.excerpt
-    }\n\n*Imagenes: ${getBookingImagesText(
+    }\n\n*Imagenes:* ${getBookingImagesText(
       accommodation.images
-    )}\n\n*Precio:* ${selectedItem.base_price}*`
+    )}\n\n*Precio:* ${selectedItem.base_price}`
 
     console.log('BODY TEXT LENGHT ========>', bodyText.length)
 
