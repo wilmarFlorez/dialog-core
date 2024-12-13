@@ -1,20 +1,46 @@
-const whatsappService = require('../services/whatsapp.service')
-const optionsIds = require('../constants/optionsIds')
+const fs = require('fs')
+const myConsole = new console.Console(fs.createWriteStream('./logs.txt'))
+const proccessMessages = require('../shared/processMessages')
+
+const GetTextUser = (messages) => {
+  let text = ''
+  const typeMessage = messages['type']
+
+  if (typeMessage === 'text') {
+    text = messages['text']['body']
+  } else if (typeMessage === 'interactive') {
+    const interactiveObject = messages['interactive']
+    const typeInteractive = interactiveObject['type']
+
+    if (typeInteractive === 'button_reply') {
+      text = interactiveObject['button_reply']['title']
+    } else if (typeInteractive === 'list_reply') {
+      text = interactiveObject['list_reply']['title']
+    } else {
+      myConsole.log('Sin mensaje')
+    }
+  } else {
+    myConsole.log('Sin mensaje')
+  }
+  return text
+}
 
 const verifyToken = (req, res) => {
   try {
-    // This token is a generated random token
-    let accessToken = 'SAFK23434JF8L38VLVM8O0'
-    let token = req.query['hub.verify_token']
-    let challenge = req.query['hub.challenge']
+    const accessToken = 'FDSHDJMNFH45G4HSDERTDVFHSDHJ4187'
+    const token = req.query['hub.verify_token']
+    const challenge = req.query['hub.challenge']
 
-    if (challenge !== null && token !== null && token == accessToken) {
-      res.status(200).send(challenge)
+    if (challenge !== null && token !== null && token === accessToken) {
+      res.send(challenge)
     } else {
-      res.status(400).send()
+      res.sendStatus(400).send()
     }
   } catch (error) {
-    res.status(400).send()
+    res.status(400).json({
+      ok: false,
+      message: error,
+    })
   }
 }
 
@@ -23,19 +49,21 @@ const receiveMessage = async (req, res) => {
     const entry = req.body['entry'][0]
     const changes = entry['changes'][0]
     const value = changes['value']
+
     const messageObject = value['messages']
-
-    if (messageObject) {
+    myConsole.log(messageObject)
+    if (messageObject !== undefined) {
       const messages = messageObject[0]
-
+      const text = GetTextUser(messages)
       const number = messages['from']
 
-      await whatsappService.processMessage(messages, number)
+      if (text !== '') {
+        await proccessMessages.Process(text, number)
+      }
     }
-
     res.send('EVENT_RECEIVED')
   } catch (error) {
-    console.log(error)
+    myConsole.log(error)
     res.send('EVENT_RECEIVED')
   }
 }
