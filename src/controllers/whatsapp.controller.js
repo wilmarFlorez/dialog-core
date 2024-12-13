@@ -2,14 +2,14 @@ const fs = require('fs')
 const myConsole = new console.Console(fs.createWriteStream('./logs.txt'))
 const proccessMessages = require('../shared/processMessages')
 
-const GetTextUser = (messages) => {
+const extractTextFromMessage = (message) => {
   let text = ''
-  const typeMessage = messages['type']
+  const typeMessage = message['type'] || 'text'
 
   if (typeMessage === 'text') {
-    text = messages['text']['body']
+    text = message['text']['body']
   } else if (typeMessage === 'interactive') {
-    const interactiveObject = messages['interactive']
+    const interactiveObject = message['interactive']
     const typeInteractive = interactiveObject['type']
 
     if (typeInteractive === 'button_reply') {
@@ -17,10 +17,10 @@ const GetTextUser = (messages) => {
     } else if (typeInteractive === 'list_reply') {
       text = interactiveObject['list_reply']['title']
     } else {
-      myConsole.log('Sin mensaje')
+      console.log('Sin mensaje')
     }
   } else {
-    myConsole.log('Sin mensaje')
+    console.log('Sin mensaje')
   }
   return text
 }
@@ -31,10 +31,10 @@ const verifyToken = (req, res) => {
     const token = req.query['hub.verify_token']
     const challenge = req.query['hub.challenge']
 
-    if (challenge !== null && token !== null && token === accessToken) {
+    if (challenge && token && token === accessToken) {
       res.send(challenge)
     } else {
-      res.sendStatus(400).send()
+      res.sendStatus(400).send('Invalid token')
     }
   } catch (error) {
     res.status(400).json({
@@ -50,21 +50,29 @@ const receiveMessage = async (req, res) => {
     const changes = entry['changes'][0]
     const value = changes['value']
 
-    const messageObject = value['messages']
-    myConsole.log(messageObject)
-    if (messageObject !== undefined) {
-      const messages = messageObject[0]
-      const text = GetTextUser(messages)
-      const number = messages['from']
+    const messages = value['messages']
 
-      if (text !== '') {
-        await proccessMessages.Process(text, number)
+    console.log(messages)
+    if (messages !== undefined) {
+      const message = messages[0]
+      const text = extractTextFromMessage(message)
+      const number = message.from
+
+      console.log('message', message, '\nnumber', number, '\ntext', text)
+
+      if (text) {
+        // proccess the text only if it is not empty
+        await proccessMessages.process(text, number)
+      } else {
+        console.log(
+          'No se ha logrado extraer el texto del mensaje (cuerpo del mensaje o body text)'
+        )
       }
     }
     res.send('EVENT_RECEIVED')
   } catch (error) {
-    myConsole.log(error)
-    res.send('EVENT_RECEIVED')
+    console.log('Error receiving message:', error)
+    res.status(500).send('Internal server error!')
   }
 }
 
