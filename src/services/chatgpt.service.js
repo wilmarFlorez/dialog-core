@@ -9,6 +9,7 @@ const openai = new OpenAIApi({
 })
 
 if (!openai.apiKey) {
+  console.log('API_KEY is not defined')
   throw new Error('API_KEY is not defined')
 }
 
@@ -21,7 +22,7 @@ const getMessaggeChatGPT = async (prompt) => {
         content: prompt,
       },
     ],
-    model: process.env.NAME_MODEL,
+    model: 'chatgpt-4o-latest',
     max_tokens: 90,
     temperature: 0,
     stop: 'END',
@@ -29,6 +30,7 @@ const getMessaggeChatGPT = async (prompt) => {
   if (chatCompletion && chatCompletion.choices.length > 0) {
     return chatCompletion.choices[0].message.content
   }
+  console.log('There is not message')
   return null
 }
 
