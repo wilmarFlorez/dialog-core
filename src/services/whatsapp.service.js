@@ -10,7 +10,7 @@ function SendMessageWhatsapp(data) {
     body: JSON.stringify(data),
     headers: {
       'Content-Type': 'application/json',
-      Authorization: process.env.FACEBOOK_AUTHORIZATION_TOKEN,
+      Authorization: `Bearer ${process.env.FACEBOOK_AUTHORIZATION_TOKEN}`,
     },
   }
 
