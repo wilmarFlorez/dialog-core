@@ -10,7 +10,7 @@ function SendMessageWhatsapp(data) {
     body: JSON.stringify(data),
     headers: {
       'Content-Type': 'application/json',
-      Authorization: process.env.FACEBOOK_TOKEN_AUTHORIZATION,
+      Authorization: process.env.FACEBOOK_AUTHORIZATION_TOKEN,
     },
   }
 
@@ -21,7 +21,7 @@ function SendMessageWhatsapp(data) {
   })
 
   req.on('error', (error) => {
-    console.error(error)
+    console.log('Error whatsapp service =>', error)
   })
 
   req.write(data)
