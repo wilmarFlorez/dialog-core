@@ -76,6 +76,4 @@ const prompts = [
   },
 ]
 
-module.exports = {
-  prompts,
-}
+export { prompts };

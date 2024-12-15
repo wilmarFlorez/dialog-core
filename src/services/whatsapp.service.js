@@ -1,8 +1,8 @@
-const https = require('https')
-const dotenv = require('dotenv')
-dotenv.config()
+import https from 'https';
+import dotenv from 'dotenv';
+dotenv.config();
 
-function SendMessageWhatsapp(data) {
+const sendMessageWhatsapp = (data) => {
   const options = {
     host: 'graph.facebook.com',
     path: '/v19.0/382988971554015/messages',
@@ -10,24 +10,22 @@ function SendMessageWhatsapp(data) {
     body: JSON.stringify(data),
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.FACEBOOK_AUTHORIZATION_TOKEN}`,
+      'Authorization': `Bearer ${process.env.FACEBOOK_AUTHORIZATION_TOKEN}`,
     },
-  }
+  };
 
   const req = https.request(options, (res) => {
     res.on('data', (d) => {
-      process.stdout.write(d)
-    })
-  })
+      process.stdout.write(d);
+    });
+  });
 
   req.on('error', (error) => {
-    console.log('Error whatsapp service =>', error)
-  })
+    console.log('Error whatsapp service =>', error);
+  });
 
-  req.write(data)
-  req.end()
-}
+  req.write(data);
+  req.end();
+};
 
-module.exports = {
-  SendMessageWhatsapp,
-}
+export { sendMessageWhatsapp };

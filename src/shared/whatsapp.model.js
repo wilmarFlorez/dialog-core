@@ -1,4 +1,4 @@
-function messageText(textResponse, number) {
+const messageText = (textResponse, number) => {
   const data = JSON.stringify({
     messaging_product: 'whatsapp',
     recipient_type: 'individual',
@@ -8,11 +8,11 @@ function messageText(textResponse, number) {
       preview_url: true,
       body: textResponse,
     },
-  })
-  return data
-}
+  });
+  return data;
+};
 
-function messageList(number) {
+const messageList = (number) => {
   const data = JSON.stringify({
     messaging_product: 'whatsapp',
     to: number,
@@ -58,11 +58,11 @@ function messageList(number) {
         ],
       },
     },
-  })
-  return data
-}
+  });
+  return data;
+};
 
-function mesaggeBuy(number) {
+const mesaggeBuy = (number) => {
   const data = JSON.stringify({
     messaging_product: 'whatsapp',
     to: number,
@@ -91,11 +91,11 @@ function mesaggeBuy(number) {
         ],
       },
     },
-  })
-  return data
-}
+  });
+  return data;
+};
 
-function messageLocation(number) {
+const messageLocation = (number) => {
   const data = JSON.stringify({
     messaging_product: 'whatsapp',
     to: number,
@@ -106,13 +106,8 @@ function messageLocation(number) {
       name: 'Parque calima',
       address: 'Carrera 7 #10-32, Darién, Calima, Valle del Cauca',
     },
-  })
-  return data
-}
+  });
+  return data;
+};
 
-module.exports = {
-  messageText,
-  messageList,
-  mesaggeBuy,
-  messageLocation,
-}
+export { messageText, messageList, mesaggeBuy, messageLocation };

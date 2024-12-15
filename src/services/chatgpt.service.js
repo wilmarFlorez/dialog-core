@@ -1,16 +1,16 @@
-const OpenAIApi = require('openai')
-const dotenv = require('dotenv')
-const { prompts } = require('../shared/prompt')
+import OpenAIApi from 'openai';
+import dotenv from 'dotenv';
+import { prompts } from '../shared/prompt.js';
 
-dotenv.config()
+dotenv.config();
 
 const openai = new OpenAIApi({
   apiKey: process.env.OPENAI_API_KEY,
-})
+});
 
 if (!openai.apiKey) {
-  console.log('API_KEY is not defined')
-  throw new Error('API_KEY is not defined')
+  console.log('API_KEY is not defined');
+  throw new Error('API_KEY is not defined');
 }
 
 const getMessaggeChatGPT = async (prompt) => {
@@ -26,14 +26,12 @@ const getMessaggeChatGPT = async (prompt) => {
     max_tokens: 90,
     temperature: 0,
     stop: 'END',
-  })
+  });
   if (chatCompletion && chatCompletion.choices.length > 0) {
-    return chatCompletion.choices[0].message.content
+    return chatCompletion.choices[0].message.content;
   }
-  console.log('There is not message')
-  return null
-}
+  console.log('There is not message');
+  return null;
+};
 
-module.exports = {
-  getMessaggeChatGPT,
-}
+export { getMessaggeChatGPT };

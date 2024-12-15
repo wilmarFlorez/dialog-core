@@ -1,14 +1,19 @@
-const express = require('express')
-const apiRoute = require('./routes/routes.js')
+import express from 'express';
+import connectDB from '../config/db.js';
+import webhookRoutes from './routes/webhookRoutes.js';
 
-const app = express()
-const PORT = process.env.PORT || 3000
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 // middlewares
-app.use(express.json())
+app.use(express.json());
 
-app.use('/whatsapp', apiRoute)
+// routes
+app.use('/whatsapp', webhookRoutes);
+
+// connect to MongoDB
+connectDB();
 
 app.listen(PORT, () => {
-  console.log(`server listening at port ${PORT}`)
-})
+  console.log(`server listening at port ${PORT}`);
+});

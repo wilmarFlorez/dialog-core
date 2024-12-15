@@ -1,23 +1,31 @@
 {
-  "name": "chatbot_v2",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node ./src/index.js",
-    "dev": "nodemon ./src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "axios": "^1.7.2",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "openai": "^4.2.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.4"
-  }
+	"name": "chatbot_v2",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "node ./src/index.js",
+		"dev": "nodemon ./src/index.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "Wilmar Florez",
+	"type": "module",
+	"license": "ISC",
+	"dependencies": {
+		"axios": "^1.7.2",
+		"bcryptjs": "^2.4.3",
+		"cloudinary": "^2.5.1",
+		"cookie-parser": "^1.4.7",
+		"dotenv": "^16.4.5",
+		"express": "^4.19.2",
+		"jsonwebtoken": "^9.0.2",
+		"mongodb": "^6.7.0",
+		"mongoose": "^8.4.1",
+		"openai": "^4.2.0",
+		"socket.io": "^4.8.1"
+	},
+	"devDependencies": {
+		"nodemon": "^3.1.4"
+	}
 }
