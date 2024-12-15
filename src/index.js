@@ -1,6 +1,7 @@
 import express from 'express';
 import connectDB from '../config/db.js';
-import webhookRoutes from './routes/webhookRoutes.js';
+import webhookRoutes from './routes/webhook.routes.js';
+import authRoutes from './routes/auth.routes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,6 +11,7 @@ app.use(express.json());
 
 // routes
 app.use('/whatsapp', webhookRoutes);
+app.use('/api/auth', authRoutes);
 
 // connect to MongoDB
 connectDB();
