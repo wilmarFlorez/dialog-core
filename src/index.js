@@ -14,6 +14,7 @@ const app = express();
 const PORT = process.env.PORT;
 
 // middlewares
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -21,10 +22,9 @@ app.use(cookieParser());
 app.use('/whatsapp', webhookRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/messages', messageRoutes);
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
 app.listen(PORT, () => {
   console.log(`server listening at port ${PORT}`);
   // connect to MongoDB
-  connectDB();
+  /* connectDB(); */
 });

@@ -52,7 +52,7 @@ const receiveMessage = async (req, res) => {
 
     const messages = value['messages'];
 
-    console.log(messages);
+    console.log('message', messages);
     if (messages !== undefined) {
       const message = messages[0];
       const text = extractTextFromMessage(message);
@@ -62,6 +62,7 @@ const receiveMessage = async (req, res) => {
 
       if (text) {
         // proccess the text only if it is not empty
+        console.l;
         await processMessages(text, number);
       } else {
         console.log(

@@ -1,4 +1,4 @@
-# Dependencias
+# Node modules (¡nunca los subas!)
 node_modules/
 
 # Logs
@@ -8,24 +8,26 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Directorio de salida de compilación
-dist/
+# Sistema operativo basura
+.DS_Store
+Thumbs.db
 
-# Archivos de configuración del entorno
+# Variables de entorno sensibles
 .env
 .env.local
 .env.*.local
 
-# Directorio de almacenamiento temporal
-tmp/
+# Build (si compilas algo)
+dist/
+build/
 
-# Archivos de depuración de IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*.sublime-workspace
+# Directorios de coverage (si usas tests)
+coverage/
 
-# Archivos de configuración del sistema operativo
-.DS_Store
-Thumbs.db
+# Cache de npm/yarn
+.npm/
+.yarn/
+
+# Archivos temporales
+*.tgz
+.pnpm-debug.log

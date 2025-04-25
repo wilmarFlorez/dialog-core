@@ -4,6 +4,7 @@ import User from '../models/user.model.js';
 
 const getUsers = async (req, res) => {
   try {
+    console.log('getting users..');
     const loggedInUserId = req.user._id;
     const filteredUsers = await User.find({
       _id: { $ne: loggedInUserId },
